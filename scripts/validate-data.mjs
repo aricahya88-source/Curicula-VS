@@ -1,8 +1,8 @@
 import fs from "node:fs";
 const file = new URL("../src/data/questions.json", import.meta.url);
 const questions = JSON.parse(fs.readFileSync(file, "utf8"));
-const expected = { single: 10, boolean: 10, matching: 5, multi: 10 };
-const counts = { single: 0, boolean: 0, matching: 0, multi: 0 };
+const expected = { single: 10, boolean: 10, sequence: 5, multi: 10 };
+const counts = { single: 0, boolean: 0, sequence: 0, multi: 0 };
 const ids = new Set();
 const errors = [];
 for (const q of questions) {
@@ -15,10 +15,11 @@ for (const q of questions) {
     if (!Number.isInteger(q.correct) || q.correct < 0 || q.correct >= q.options.length) errors.push(`${q.id}: kunci PG invalid`);
   }
   if (q.type === "boolean" && typeof q.correct !== "boolean") errors.push(`${q.id}: kunci B/S invalid`);
-  if (q.type === "matching") {
-    if (!Array.isArray(q.pairs) || q.pairs.length !== 4) errors.push(`${q.id}: matching harus 4 pasangan`);
-    const pairIds = new Set(q.pairs?.map(p => p.id));
-    if (pairIds.size !== q.pairs?.length) errors.push(`${q.id}: pair id duplikat`);
+  if (q.type === "sequence") {
+    if (!Array.isArray(q.options) || q.options.length !== 4) errors.push(`${q.id}: urutan harus 4 kartu`);
+    if (!Array.isArray(q.correctOrder) || q.correctOrder.length !== 4) errors.push(`${q.id}: correctOrder harus 4 posisi`);
+    const order = new Set(q.correctOrder ?? []);
+    if (order.size !== 4 || [...order].some(i => !Number.isInteger(i) || i < 0 || i > 3)) errors.push(`${q.id}: correctOrder invalid`);
   }
   if (q.type === "multi") {
     if (!Array.isArray(q.options) || q.options.length < 4) errors.push(`${q.id}: multi opsi terlalu sedikit`);

@@ -7,6 +7,7 @@ import type {
   HandFrame,
   MatchingQuestion,
   MultiQuestion,
+  SequenceQuestion,
   PlayerId,
   Question,
   SingleQuestion
@@ -18,7 +19,7 @@ if (!app) throw new Error("#app tidak ditemukan");
 
 type PreparedSingle = Omit<SingleQuestion, "options" | "correct"> & { options: string[]; correct: number };
 type PreparedMulti = Omit<MultiQuestion, "options" | "correct"> & { options: string[]; correct: number[] };
-type PreparedQuestion = PreparedSingle | BooleanQuestion | MatchingQuestion | PreparedMulti;
+type PreparedQuestion = PreparedSingle | BooleanQuestion | MatchingQuestion | SequenceQuestion | PreparedMulti;
 type ChapterSequences = Record<PlayerId, PreparedQuestion[][]>;
 type MatchMap = Record<string, string>;
 
@@ -26,6 +27,7 @@ interface PlayerState {
   submitted: boolean;
   answer: unknown;
   multiSelected: Set<number>;
+  sequenceOrder: number[];
   matchMap: MatchMap;
 }
 interface SubTeamState { name: string; score: number; }
@@ -44,8 +46,8 @@ const attempts: Record<PlayerId, AttemptRecord[]> = { 1: [], 2: [] };
 let reviewPlayer: PlayerId = 1;
 
 const players: Record<PlayerId, PlayerState> = {
-  1: { submitted: false, answer: null, multiSelected: new Set(), matchMap: {} },
-  2: { submitted: false, answer: null, multiSelected: new Set(), matchMap: {} }
+  1: { submitted: false, answer: null, multiSelected: new Set(), sequenceOrder: [], matchMap: {} },
+  2: { submitted: false, answer: null, multiSelected: new Set(), sequenceOrder: [], matchMap: {} }
 };
 const teams: Record<PlayerId, TeamState> = {
   1: { name: "Tim A", subteams: [1,2,3,4].map(n => ({ name: `A${n}`, score: 0 })) },
@@ -121,7 +123,7 @@ app.innerHTML = `
         <div class="round-list">
           <div><b>1</b><span><strong>Pilihan Ganda</strong><small>10 soal/sisi • ☝️ A • ✌️ B • 🤟 C • ✋ D • ✊ kunci</small></span></div>
           <div><b>2</b><span><strong>Benar / Salah</strong><small>10 soal/sisi • ☝️ A = BENAR • ✌️ B = SALAH • ✊ kunci</small></span></div>
-          <div><b>3</b><span><strong>Menjodohkan</strong><small>5 soal/sisi • 🤏 drag & drop • ✊ kunci</small></span></div>
+          <div><b>3</b><span><strong>Urutkan</strong><small>5 soal/sisi • ☝️ A • ✌️ B • 🤟 C • ✋ D • ✊ kunci</small></span></div>
           <div><b>4</b><span><strong>Pilihan Lebih dari 1</strong><small>10 soal/sisi • ☝️ A • ✌️ B • 🤟 C • ✋ D (toggle) • ✊ kunci</small></span></div>
         </div>
         <div id="setupStatus" class="setup-status">MediaPipe belum dimuat.</div>
@@ -412,6 +414,7 @@ function resetPlayerForQuestion(id: PlayerId): void {
   p.submitted = false;
   p.answer = null;
   p.multiSelected = new Set();
+  p.sequenceOrder = [];
   p.matchMap = {};
   pointerSelected[id] = undefined;
   resetGestureHold(id);
@@ -455,6 +458,7 @@ function renderPlayerQuestion(id: PlayerId): void {
   mount.replaceChildren();
   if (q.type === "single") renderSingle(id, q, mount);
   else if (q.type === "boolean") renderBoolean(id, mount);
+  else if (q.type === "sequence") renderSequence(id, q, mount);
   else if (q.type === "matching") renderMatching(id, q, mount);
   else renderMulti(id, q, mount);
 }
@@ -476,6 +480,31 @@ function renderBoolean(id: PlayerId, mount: HTMLElement): void {
   const no = document.createElement("button"); no.type = "button"; no.className = "boolean-option false"; no.dataset.value = "false"; no.innerHTML = `<b>✌️ <i>B</i></b><span>SALAH</span>`; no.addEventListener("click", () => selectBoolean(id, false));
   const submit = document.createElement("button"); submit.type = "button"; submit.className = "submit-answer"; submit.dataset.action = "submit-boolean"; submit.textContent = "✊ Kunci Jawaban"; submit.addEventListener("click", () => lockBoolean(id));
   wrap.append(yes, no); mount.append(wrap, submit);
+}
+
+function renderSequence(id: PlayerId, q: SequenceQuestion, mount: HTMLElement): void {
+  const shell = document.createElement("div"); shell.className = "sequence-shell";
+  const wrap = document.createElement("div"); wrap.className = "sequence-grid";
+  q.options.forEach((text, index) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "sequence-option";
+    btn.dataset.index = String(index);
+    btn.innerHTML = `<b>${letter(index)}</b><span>${escapeHtml(text)}</span><em></em>`;
+    btn.addEventListener("click", () => selectSequence(id, index));
+    wrap.appendChild(btn);
+  });
+
+  const orderBox = document.createElement("div"); orderBox.className = "sequence-order-box";
+  orderBox.innerHTML = `<span>URUTANMU</span><div class="sequence-slots" aria-live="polite"></div>`;
+
+  const actionRow = document.createElement("div"); actionRow.className = "sequence-actions";
+  const reset = document.createElement("button"); reset.type = "button"; reset.className = "sequence-reset"; reset.textContent = "↶ Reset Urutan"; reset.addEventListener("click", () => resetSequence(id));
+  const submit = document.createElement("button"); submit.type = "button"; submit.className = "submit-answer"; submit.dataset.action = "submit-sequence"; submit.textContent = "✊ Kunci Urutan"; submit.addEventListener("click", () => submitSequence(id));
+  actionRow.append(reset, submit);
+  shell.append(wrap, orderBox, actionRow);
+  mount.append(shell);
+  refreshSequenceUI(id);
 }
 
 function renderMatching(id: PlayerId, q: MatchingQuestion, mount: HTMLElement): void {
@@ -564,6 +593,70 @@ function submitMulti(id: PlayerId): void {
   const perfect = pickedWrong === 0 && pickedCorrect === correctSet.size;
   const gained = Math.max(0, pickedCorrect * APP_CONFIG.scoring.multiCorrectPick + pickedWrong * APP_CONFIG.scoring.multiWrongPick + (perfect ? APP_CONFIG.scoring.multiPerfectBonus : 0));
   finalizePlayerSubmission(id, perfect, gained, `${pickedCorrect}/${correctSet.size} tepat`);
+}
+
+function selectSequence(id: PlayerId, index: number): void {
+  const q = currentQuestionFor(id); if (!canSubmit(id) || q?.type !== "sequence") return;
+  const order = players[id].sequenceOrder;
+  const existing = order.indexOf(index);
+  if (existing >= 0) {
+    if (existing === order.length - 1) {
+      order.pop();
+      refreshSequenceUI(id);
+      const text = order.length ? order.map(letter).join(" → ") : "belum ada";
+      setLockState(id, order.length ? `URUTAN: ${text} • BELUM DIKUNCI` : "BELUM ADA URUTAN", false);
+      setGestureMessage(id, `Pilihan terakhir dibatalkan • ${text}`, 0);
+    } else {
+      setGestureMessage(id, `${letter(index)} sudah ada di urutan. Batalkan dari pilihan terakhir terlebih dahulu.`, 0);
+    }
+    return;
+  }
+  if (order.length >= q.options.length) { setGestureMessage(id, "Urutan sudah lengkap • ✊ untuk KUNCI", 0); return; }
+  order.push(index);
+  refreshSequenceUI(id);
+  const text = order.map(letter).join(" → ");
+  setLockState(id, order.length === q.options.length ? `URUTAN: ${text} • SIAP DIKUNCI` : `URUTAN: ${text}`, false);
+  setGestureMessage(id, order.length === q.options.length ? `${text} • ✊ untuk KUNCI` : `${text} • pilih kartu berikutnya`, 0);
+}
+
+function resetSequence(id: PlayerId): void {
+  const q = currentQuestionFor(id); if (!canSubmit(id) || q?.type !== "sequence") return;
+  players[id].sequenceOrder = [];
+  refreshSequenceUI(id);
+  setLockState(id, "BELUM ADA URUTAN", false);
+  setGestureMessage(id, "Urutan direset • ☝️ A • ✌️ B • 🤟 C • ✋ D", 0);
+}
+
+function refreshSequenceUI(id: PlayerId): void {
+  const q = currentQuestionFor(id); if (q?.type !== "sequence") return;
+  const mount = must<HTMLElement>(`#answerMount${id}`);
+  const order = players[id].sequenceOrder;
+  mount.querySelectorAll<HTMLElement>(".sequence-option").forEach(card => {
+    const index = Number(card.dataset.index);
+    const position = order.indexOf(index);
+    card.classList.toggle("selected", position >= 0);
+    card.classList.toggle("last-selected", position === order.length - 1 && position >= 0);
+    const badge = card.querySelector("em");
+    if (badge) badge.textContent = position >= 0 ? String(position + 1) : "";
+  });
+  const slots = mount.querySelector<HTMLElement>(".sequence-slots");
+  if (slots) {
+    slots.innerHTML = q.options.map((_, pos) => {
+      const index = order[pos];
+      return `<span class="sequence-slot ${index === undefined ? "empty" : "filled"}">${index === undefined ? pos + 1 : letter(index)}</span>${pos < q.options.length - 1 ? '<i>→</i>' : ''}`;
+    }).join("");
+  }
+}
+
+function submitSequence(id: PlayerId): void {
+  const q = currentQuestionFor(id); if (!canSubmit(id) || q?.type !== "sequence") return;
+  const order = [...players[id].sequenceOrder];
+  if (order.length !== q.options.length) { setGestureMessage(id, `Lengkapi 4 urutan dulu (${order.length}/4)`, 0); return; }
+  players[id].answer = order;
+  const correctPositions = order.filter((value, pos) => value === q.correctOrder[pos]).length;
+  const perfect = correctPositions === q.correctOrder.length;
+  const gained = correctPositions * APP_CONFIG.scoring.sequenceCorrectPosition + (perfect ? APP_CONFIG.scoring.sequencePerfectBonus : 0);
+  finalizePlayerSubmission(id, perfect, gained, `${correctPositions}/${q.correctOrder.length} posisi tepat`);
 }
 
 function selectMatchCard(id: PlayerId, leftId: string): void {
@@ -749,6 +842,10 @@ function formatUserAnswer(q: PreparedQuestion, answer: unknown): string {
     return index >= 0 ? `${letter(index)}. ${escapeHtml(q.options[index] ?? "")}` : "—";
   }
   if (q.type === "boolean") return answer === true ? "A. BENAR" : "B. SALAH";
+  if (q.type === "sequence") {
+    const indexes = Array.isArray(answer) ? answer as number[] : [];
+    return indexes.length ? indexes.map((i, pos) => `${pos + 1}. ${letter(i)}. ${escapeHtml(q.options[i] ?? "")}`).join("<br>") : "— Tidak dijawab —";
+  }
   if (q.type === "multi") {
     const indexes = Array.isArray(answer) ? answer as number[] : [];
     return indexes.length ? indexes.map(i => `${letter(i)}. ${escapeHtml(q.options[i] ?? "")}`).join("<br>") : "— Tidak dijawab —";
@@ -764,6 +861,7 @@ function formatUserAnswer(q: PreparedQuestion, answer: unknown): string {
 function formatCorrectAnswer(q: PreparedQuestion): string {
   if (q.type === "single") return `${letter(q.correct)}. ${escapeHtml(q.options[q.correct] ?? "")}`;
   if (q.type === "boolean") return q.correct ? "A. BENAR" : "B. SALAH";
+  if (q.type === "sequence") return q.correctOrder.map((i, pos) => `${pos + 1}. ${letter(i)}. ${escapeHtml(q.options[i] ?? "")}`).join("<br>");
   if (q.type === "multi") return q.correct.map(i => `${letter(i)}. ${escapeHtml(q.options[i] ?? "")}`).join("<br>");
   return q.pairs.map(pair => `${escapeHtml(pair.left)} → ${escapeHtml(pair.right)}`).join("<br>");
 }
@@ -819,7 +917,7 @@ function handleFrames(frames: Map<PlayerId, HandFrame>): void {
       must(`#handDot${id}`).classList.add("online");
       must(`#handText${id}`).textContent = frame.fist
         ? `✊ Kunci terdeteksi (${Math.round(frame.fistScore * 100)}%)`
-        : frame.pinch ? "Pinch terdeteksi" : "Tangan terdeteksi";
+        : "Tangan terdeteksi";
       if (!mouseMode && canSubmit(id)) handleGesture(id, frame, now);
       previousPinch[id] = frame.pinch;
     } else {
@@ -860,6 +958,16 @@ function handleGesture(id: PlayerId, frame: HandFrame, now: number): void {
     const boolChoice = choice && choice.index <= 1 ? choice : null;
     const value = boolChoice?.index === 0;
     handleHeldGesture(id, boolChoice ? `boolean-${boolChoice.index}` : "", now, boolChoice ? `${boolChoice.emoji} ${boolChoice.index === 0 ? "A = BENAR" : "B = SALAH"} (belum dikunci)` : "☝️ A = BENAR • ✌️ B = SALAH • ✊ KUNCI", () => selectBoolean(id, value));
+    return;
+  }
+
+  if (q.type === "sequence") {
+    if (fist) {
+      handleHeldGesture(id, "lock-sequence", now, "✊ tahan untuk KUNCI", () => submitSequence(id), APP_CONFIG.lockHoldMs);
+      return;
+    }
+    const choice = classifySingleChoiceGesture(frame.landmarks);
+    handleHeldGesture(id, choice ? `sequence-${choice.index}` : "", now, choice ? `${choice.emoji} → ${letter(choice.index)} (susun urutan)` : "☝️ A • ✌️ B • 🤟 C • ✋ D • ✊ KUNCI", () => selectSequence(id, choice!.index));
     return;
   }
 
@@ -1078,12 +1186,13 @@ function handleChapterTimeout(): void {
 function chapterInfo(chapter: number): {name:string;emoji:string;instruction:string} {
   if (chapter === 1) return { name:"Pilihan Ganda", emoji:"☝️", instruction:"Waktu 7 menit. Gunakan ☝️ untuk A, ✌️ untuk B, 🤟 untuk C, dan ✋ untuk D. Pilihan dapat diganti. Tahan ✊ untuk mengunci; setelah terkunci otomatis lanjut." };
   if (chapter === 2) return { name:"Benar / Salah", emoji:"☝️", instruction:"Waktu 7 menit. Gunakan ☝️ A untuk BENAR atau ✌️ B untuk SALAH. Pilihan dapat diganti sampai Anda menahan ✊ untuk mengunci." };
-  if (chapter === 3) return { name:"Menjodohkan", emoji:"🤏", instruction:"Waktu 7 menit. Pinch kartu, geser ke pasangan, lalu lepas. Pasangan masih dapat diubah. Setelah yakin, tahan ✊ untuk mengunci dan lanjut." };
+  if (chapter === 3) return { name:"Urutkan", emoji:"🔢", instruction:"Waktu 7 menit. Gunakan ☝️ A, ✌️ B, 🤟 C, dan ✋ D untuk memasukkan kartu ke urutan berikutnya. Gesture kartu terakhir yang sama sekali lagi membatalkan pilihan terakhir. Setelah 4 kartu tersusun, tahan ✊ untuk mengunci." };
   return { name:"Pilihan Lebih dari 1", emoji:"🤟", instruction:"Waktu 7 menit. Gunakan ☝️ A, ✌️ B, 🤟 C, dan ✋ D untuk memilih atau membatalkan opsi. Gesture yang sama dapat digunakan lagi untuk batal. Tahan ✊ untuk mengunci dan lanjut." };
 }
 function gestureHint(type: PreparedQuestion["type"]): string {
   if (type === "single") return `<b>GESTURE:</b> ☝️ A &nbsp; ✌️ B &nbsp; 🤟 C &nbsp; ✋ D &nbsp; • &nbsp; ✊ KUNCI`;
   if (type === "boolean") return `<b>GESTURE:</b> ☝️ A = BENAR &nbsp; • &nbsp; ✌️ B = SALAH &nbsp; • &nbsp; ✊ KUNCI`;
+  if (type === "sequence") return `<b>GESTURE:</b> ☝️ A &nbsp; ✌️ B &nbsp; 🤟 C &nbsp; ✋ D &nbsp; • &nbsp; pilih sesuai urutan &nbsp; • &nbsp; ✊ KUNCI`;
   if (type === "matching") return `<b>GESTURE:</b> ☝️ arahkan → 🤏 ambil → geser → 🖐️ lepas &nbsp; • &nbsp; ✊ KUNCI`;
   return `<b>GESTURE:</b> ☝️ A &nbsp; ✌️ B &nbsp; 🤟 C &nbsp; ✋ D &nbsp; (toggle) &nbsp; • &nbsp; ✊ KUNCI`;
 }

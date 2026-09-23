@@ -1,4 +1,4 @@
-# Curicula-VS v2.0
+# Curicula-VS v2.4
 
 Aplikasi permainan kelas statis berbasis **Vite + TypeScript + MediaPipe Hand Landmarker** untuk materi **Hakikat, Fungsi, Prinsip, Komponen, dan Perkembangan Kurikulum**, dengan konteks pendidikan fisika.
 
@@ -6,7 +6,7 @@ Aplikasi permainan kelas statis berbasis **Vite + TypeScript + MediaPipe Hand La
 
 - Babak 1 — A1 vs B1: **10 Pilihan Ganda**
 - Babak 2 — A2 vs B2: **10 Benar/Salah**
-- Babak 3 — A3 vs B3: **5 Menjodohkan** (4 pasangan per soal)
+- Babak 3 — A3 vs B3: **5 Urutkan** (4 kartu per soal)
 - Babak 4 — A4 vs B4: **10 Pilihan Lebih dari 1** (4 opsi)
 - Total: **35 soal**
 - Durasi: **7 menit per babak**
@@ -16,7 +16,7 @@ Aplikasi permainan kelas statis berbasis **Vite + TypeScript + MediaPipe Hand La
 
 - Pilihan Ganda: **☝️ A, ✌️ B, 🤟 C, ✋ D**, lalu **✊ KUNCI**.
 - Benar/Salah: **☝️ A = BENAR, ✌️ B = SALAH**, lalu **✊ KUNCI**.
-- Menjodohkan: arahkan tangan, **pinch** kartu, geser ke pasangan, lepas, lalu **✊ KUNCI**.
+- Urutkan: gunakan **☝️ A, ✌️ B, 🤟 C, ✋ D** sesuai urutan, lalu **✊ KUNCI**. Gesture kartu terakhir yang sama dapat digunakan lagi untuk undo.
 - Pilihan lebih dari 1: **☝️ A, ✌️ B, 🤟 C, ✋ D** sebagai toggle. Gesture yang sama lagi membatalkan opsi, lalu **✊ KUNCI**.
 
 ## Pembahasan & kunci

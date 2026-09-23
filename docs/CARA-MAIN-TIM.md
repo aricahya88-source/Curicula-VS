@@ -1,4 +1,4 @@
-# Cara Main Tim — Curicula-VS v2.0
+# Cara Main Tim — Curicula-VS v2.4
 
 ## Struktur
 
@@ -9,13 +9,13 @@
 
 1. A1 vs B1 — Pilihan Ganda (10 soal per sisi)
 2. A2 vs B2 — Benar/Salah (10 soal per sisi)
-3. A3 vs B3 — Menjodohkan (5 soal per sisi)
+3. A3 vs B3 — Urutkan (5 soal per sisi)
 4. A4 vs B4 — Pilihan Lebih dari 1 (10 soal per sisi)
 
 ## Aturan
 
 - Kedua tim mendapat urutan soal yang berbeda pada waktu yang sama.
-- Pilihan dapat diubah sebelum pemain melakukan ✊ KUNCI.
+- Pilihan dapat diubah sebelum pemain melakukan ✊ KUNCI. Pada Babak 3, ulangi gesture kartu terakhir untuk undo urutan terakhir.
 - Setelah jawaban terkunci, sisi tersebut otomatis masuk soal berikutnya.
 - Setiap babak memiliki timer 7 menit.
 - Jika waktu habis, skor jawaban yang telah dikunci tetap disimpan; soal yang belum dijawab ditandai pada review akhir.

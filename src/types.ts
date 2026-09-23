@@ -1,5 +1,5 @@
 export type PlayerId = 1 | 2;
-export type QuestionType = "single" | "boolean" | "matching" | "multi";
+export type QuestionType = "single" | "boolean" | "matching" | "sequence" | "multi";
 
 export interface Point { x: number; y: number; }
 
@@ -30,13 +30,19 @@ export interface MatchingQuestion extends BaseQuestion {
   pairs: MatchPair[];
 }
 
+export interface SequenceQuestion extends BaseQuestion {
+  type: "sequence";
+  options: string[];
+  correctOrder: number[];
+}
+
 export interface MultiQuestion extends BaseQuestion {
   type: "multi";
   options: string[];
   correct: number[];
 }
 
-export type Question = SingleQuestion | BooleanQuestion | MatchingQuestion | MultiQuestion;
+export type Question = SingleQuestion | BooleanQuestion | MatchingQuestion | SequenceQuestion | MultiQuestion;
 
 export interface HandFrame {
   playerId: PlayerId;

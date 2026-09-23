@@ -23,6 +23,8 @@ export const APP_CONFIG = {
     fastestBonus: 25,
     matchPair: 50,
     matchPerfectBonus: 50,
+    sequenceCorrectPosition: 40,
+    sequencePerfectBonus: 40,
     multiCorrectPick: 50,
     multiWrongPick: -25,
     multiPerfectBonus: 50

@@ -12,12 +12,13 @@
 - ✌️ B = Salah
 - ✊ tahan = Kunci
 
-## Menjodohkan
-- Arahkan tangan ke kartu
-- Pinch untuk mengambil
-- Geser ke kotak pasangan
-- Lepas pinch untuk menaruh
-- ✊ tahan = Kunci
+## Urutkan
+- ☝️ = pilih kartu A sebagai urutan berikutnya
+- ✌️ = pilih kartu B sebagai urutan berikutnya
+- 🤟 = pilih kartu C sebagai urutan berikutnya
+- ✋ = pilih kartu D sebagai urutan berikutnya
+- Ulangi gesture **kartu terakhir** untuk undo pilihan terakhir
+- ✊ tahan = Kunci setelah 4 kartu tersusun
 
 ## Pilihan Lebih dari 1
 - ☝️ = toggle A
