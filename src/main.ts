@@ -236,6 +236,15 @@ const chapterTimer = must<HTMLElement>("#chapterTimer");
 const cameraButton = must<HTMLButtonElement>("#cameraButton");
 const startButton = must<HTMLButtonElement>("#startButton");
 const cursorEls: Record<PlayerId, HTMLElement> = { 1: must("#cursor1"), 2: must("#cursor2") };
+const handDotEls: Record<PlayerId, HTMLElement> = { 1: must("#handDot1"), 2: must("#handDot2") };
+const handTextEls: Record<PlayerId, HTMLElement> = { 1: must("#handText1"), 2: must("#handText2") };
+const gestureLabelEls: Record<PlayerId, HTMLElement> = { 1: must("#gestureLabel1"), 2: must("#gestureLabel2") };
+const gestureBarEls: Record<PlayerId, HTMLElement> = { 1: must("#gestureBar1"), 2: must("#gestureBar2") };
+const lastHandStatusText: Record<PlayerId, string> = { 1: "", 2: "" };
+const lastGestureUi: Record<PlayerId, { label: string; pct: number }> = {
+  1: { label: "", pct: -1 },
+  2: { label: "", pct: -1 }
+};
 
 const tracker = new HandTracker(video, stage, canvas, {
   onFrames: handleFrames,
@@ -247,6 +256,9 @@ cameraButton.addEventListener("click", async () => {
   cameraButton.disabled = true;
   try {
     await tracker.startCamera();
+    // Kamera tetap menampilkan preview, tetapi inferensi belum perlu berjalan
+    // selama pemain masih berada di layar setup.
+    tracker.setProcessingEnabled(false);
     cameraReady = true;
     mouseMode = false;
     startButton.disabled = false;
@@ -291,6 +303,8 @@ must<HTMLButtonElement>("#reviewTab2").addEventListener("click", () => openRevie
 must<HTMLButtonElement>("#againButton").addEventListener("click", startMatch);
 must<HTMLButtonElement>("#homeButton").addEventListener("click", () => {
   stopChapterTimer();
+  tracker.setProcessingEnabled(false);
+  resetLiveHandUi();
   finishOverlay.classList.add("hidden");
   reviewOverlay.classList.add("hidden");
   playerArea.classList.add("hidden");
@@ -368,6 +382,8 @@ function prepareMulti(q: MultiQuestion): PreparedMulti {
 
 function showChapterIntro(chapter: number): void {
   stopChapterTimer();
+  tracker.setProcessingEnabled(false);
+  resetLiveHandUi();
   chapterTimedOut = false;
   updateChapterTimerDisplay(CHAPTER_DURATION_MS);
   chapterWaiting = true;
@@ -383,6 +399,7 @@ function showChapterIntro(chapter: number): void {
 }
 
 function startChapter(): void {
+  tracker.setProcessingEnabled(cameraReady && !mouseMode);
   questionIndex = { 1: 0, 2: 0 };
   chapterTimedOut = false;
   chapterDone = { 1: false, 2: false };
@@ -771,6 +788,8 @@ function renderWaiting(id: PlayerId): void {
 
 function finishMatch(): void {
   stopChapterTimer();
+  tracker.setProcessingEnabled(false);
+  resetLiveHandUi();
   chapterWaiting = true;
   playerArea.classList.add("hidden");
   const total1 = teamTotal(1), total2 = teamTotal(2);
@@ -906,18 +925,41 @@ function setLockState(id: PlayerId, text: string, locked: boolean): void {
   const el = must<HTMLElement>(`#lockState${id}`); el.textContent = text; el.classList.toggle("locked", locked);
 }
 
+function setTextIfChanged(el: HTMLElement, value: string): void {
+  if (el.textContent !== value) el.textContent = value;
+}
+
+function resetLiveHandUi(): void {
+  for (const id of [1,2] as const) {
+    cursorEls[id].classList.remove("visible", "pinching");
+    handDotEls[id].classList.remove("online");
+    setTextIfChanged(handTextEls[id], "Tangan belum terdeteksi");
+    lastHandStatusText[id] = "Tangan belum terdeteksi";
+    previousPinch[id] = false;
+    resetGestureHold(id);
+  }
+}
+
 function handleFrames(frames: Map<PlayerId, HandFrame>): void {
   const now = performance.now();
   for (const id of [1,2] as const) {
-    const frame = frames.get(id); const cursor = cursorEls[id];
+    const frame = frames.get(id);
+    const cursor = cursorEls[id];
     if (frame) {
       lastSeen[id] = now;
-      cursor.classList.add("visible"); cursor.classList.toggle("pinching", frame.pinch);
+      if (!cursor.classList.contains("visible")) cursor.classList.add("visible");
+      cursor.classList.toggle("pinching", frame.pinch);
       cursor.style.transform = `translate3d(${frame.cursor.x}px, ${frame.cursor.y}px, 0) translate(-50%, -50%)`;
-      must(`#handDot${id}`).classList.add("online");
-      must(`#handText${id}`).textContent = frame.fist
+      if (!handDotEls[id].classList.contains("online")) handDotEls[id].classList.add("online");
+
+      const handStatus = frame.fist
         ? `✊ Kunci terdeteksi (${Math.round(frame.fistScore * 100)}%)`
         : "Tangan terdeteksi";
+      if (lastHandStatusText[id] !== handStatus) {
+        setTextIfChanged(handTextEls[id], handStatus);
+        lastHandStatusText[id] = handStatus;
+      }
+
       if (!mouseMode && canSubmit(id)) handleGesture(id, frame, now);
       previousPinch[id] = frame.pinch;
     } else {
@@ -927,9 +969,14 @@ function handleFrames(frames: Map<PlayerId, HandFrame>): void {
       }
       if (missingFor > APP_CONFIG.handLostCancelMs) {
         cursor.classList.remove("visible", "pinching");
-        must(`#handDot${id}`).classList.remove("online"); must(`#handText${id}`).textContent = "Tangan belum terdeteksi";
+        handDotEls[id].classList.remove("online");
+        if (lastHandStatusText[id] !== "Tangan belum terdeteksi") {
+          setTextIfChanged(handTextEls[id], "Tangan belum terdeteksi");
+          lastHandStatusText[id] = "Tangan belum terdeteksi";
+        }
         if (gestureDrag[id]) cancelGestureDrag(id);
-        previousPinch[id] = false; resetGestureHold(id);
+        previousPinch[id] = false;
+        resetGestureHold(id);
       }
     }
   }
@@ -1034,8 +1081,19 @@ function resetGestureHold(id: PlayerId): void {
   gestureHold[id] = { key: "", accumulatedMs: 0, lastUpdateAt: 0, lastActiveAt: 0, fired: false };
 }
 function setGestureMessage(id: PlayerId, label: string, pct: number): void {
-  must(`#gestureLabel${id}`).textContent = label;
-  must<HTMLElement>(`#gestureBar${id}`).style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  const clamped = Math.max(0, Math.min(100, pct));
+  const rounded = Math.round(clamped);
+  const last = lastGestureUi[id];
+  if (last.label !== label) {
+    setTextIfChanged(gestureLabelEls[id], label);
+    last.label = label;
+  }
+  // Updating the progress bar every tiny fraction of a percent creates needless
+  // style recalculation; integer-percent updates are visually indistinguishable.
+  if (last.pct !== rounded) {
+    gestureBarEls[id].style.width = `${rounded}%`;
+    last.pct = rounded;
+  }
 }
 
 function triggerPinchTarget(id: PlayerId, x: number, y: number): void {

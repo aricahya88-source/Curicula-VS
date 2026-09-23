@@ -448,3 +448,44 @@ html, body, #app, .game-shell, .stage { height: 100%; }
   .sequence-actions { grid-template-columns: 90px 1fr; gap: 5px; }
   .sequence-reset { font-size: .6rem; }
 }
+
+/* v2.5 performance pass ---------------------------------------------------
+   The moving camera already provides visual depth. Realtime backdrop blur on
+   many translucent cards forces the browser to re-sample that video every
+   frame, so gameplay surfaces deliberately use opaque/translucent fills only.
+   Overlays may keep blur because MediaPipe inference is paused while open. */
+.topbar,
+.score-card,
+.player-panel,
+.player-status-row,
+.side-question-card,
+.choice-option,
+.boolean-option,
+.multi-option,
+.match-card,
+.match-target,
+.submit-answer,
+.sequence-option,
+.gesture-progress {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.topbar { background: rgba(2,6,23,.72); }
+.score-card { background: rgba(2,6,23,.68); }
+.player-panel { background: rgba(2,6,23,.16); }
+.player-status-row { background: rgba(2,6,23,.64); }
+.side-question-card { background: rgba(2,6,23,.66); }
+.choice-option,
+.boolean-option,
+.multi-option,
+.match-card,
+.match-target,
+.submit-answer,
+.sequence-option { background: rgba(2,6,23,.72); }
+.gesture-progress { background: rgba(2,6,23,.60); }
+
+/* Isolate the two player panels so a small update (cursor/status/progress)
+   does not trigger painting across the opposite half of the game board. */
+.player-panel { contain: layout paint; }
+.hand-canvas { contain: strict; }

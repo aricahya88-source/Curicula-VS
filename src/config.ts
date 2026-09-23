@@ -4,10 +4,20 @@ export const APP_CONFIG = {
   gestureCooldownMs: 850,
   selectionCooldownMs: 120,
   lockDropoutGraceMs: 220,
-  maxHoldFrameDeltaMs: 90,
-  inferenceIntervalMs: 34,
+  maxHoldFrameDeltaMs: 95,
+  // ~18 inference FPS is ample for gestures held for 480–680 ms, while
+  // substantially reducing CPU/GPU load compared with ~30 FPS.
+  inferenceIntervalMs: 55,
+  // Skeleton is visual feedback only, so it is drawn at ~12 FPS.
+  skeletonDrawIntervalMs: 84,
   handLostCancelMs: 650,
-  cursorSmoothing: 0.42,
+  cursorSmoothing: 0.46,
+  camera: {
+    width: 960,
+    height: 540,
+    frameRate: 24,
+    maxFrameRate: 30
+  },
   fist: {
     engageScore: 0.52,
     releaseScore: 0.36,

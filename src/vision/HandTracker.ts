@@ -19,6 +19,19 @@ interface BinaryGestureMemory {
   candidateSince: number;
 }
 
+interface StageGeometry {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+  width: number;
+  height: number;
+  renderedWidth: number;
+  renderedHeight: number;
+  offsetX: number;
+  offsetY: number;
+}
+
 type PinchMemory = BinaryGestureMemory;
 type FistMemory = BinaryGestureMemory;
 
@@ -46,7 +59,9 @@ export class HandTracker {
   private stream: MediaStream | null = null;
   private rafId = 0;
   private running = false;
+  private processingEnabled = true;
   private lastInferenceAt = 0;
+  private lastDrawAt = 0;
   private lastVideoTime = -1;
   private smoothCursor: Partial<Record<PlayerId, Point>> = {};
   private pinchMemory: Record<PlayerId, PinchMemory> = {
@@ -67,7 +82,7 @@ export class HandTracker {
     this.video = video;
     this.stage = stage;
     this.canvas = canvas;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) throw new Error("Canvas 2D tidak tersedia.");
     this.ctx = ctx;
     this.callbacks = callbacks;
@@ -91,7 +106,7 @@ export class HandTracker {
 
     try {
       this.handLandmarker = await HandLandmarker.createFromOptions(vision, options);
-      this.callbacks.onStatus("MediaPipe siap (GPU).");
+      this.callbacks.onStatus("MediaPipe siap (GPU). Mode hemat performa aktif.");
     } catch (gpuError) {
       this.callbacks.onStatus("GPU tidak tersedia, mencoba CPU…");
       this.handLandmarker = await HandLandmarker.createFromOptions(vision, {
@@ -101,7 +116,7 @@ export class HandTracker {
           delegate: "CPU" as const
         }
       });
-      this.callbacks.onStatus("MediaPipe siap (CPU).");
+      this.callbacks.onStatus("MediaPipe siap (CPU). Mode hemat performa aktif.");
       console.warn("MediaPipe GPU fallback:", gpuError);
     }
   }
@@ -110,36 +125,42 @@ export class HandTracker {
     if (!navigator.mediaDevices?.getUserMedia) {
       throw new Error("Browser tidak mendukung akses kamera. Gunakan Chrome/Edge modern melalui HTTPS atau localhost.");
     }
-    if (!this.handLandmarker) {
-      await this.initialize();
-    }
+    if (!this.handLandmarker) await this.initialize();
 
     this.callbacks.onStatus("Meminta izin kamera…");
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
         facingMode: "user",
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
-        frameRate: { ideal: 30, max: 60 }
+        width: { ideal: APP_CONFIG.camera.width },
+        height: { ideal: APP_CONFIG.camera.height },
+        frameRate: { ideal: APP_CONFIG.camera.frameRate, max: APP_CONFIG.camera.maxFrameRate }
       }
     });
 
     this.video.srcObject = this.stream;
     await new Promise<void>((resolve) => {
-      if (this.video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-        resolve();
-        return;
-      }
+      if (this.video.readyState >= HTMLMediaElement.HAVE_METADATA) return resolve();
       this.video.addEventListener("loadedmetadata", () => resolve(), { once: true });
     });
     await this.video.play();
 
     this.running = true;
-    this.callbacks.onStatus("Kamera aktif. Tunjukkan satu tangan per pemain.");
+    this.callbacks.onStatus("Kamera aktif. Analisis gesture dioptimalkan agar lebih ringan.");
     this.resizeCanvas();
-    window.addEventListener("resize", this.resizeCanvas);
+    window.addEventListener("resize", this.resizeCanvas, { passive: true });
     this.loop();
+  }
+
+  setProcessingEnabled(enabled: boolean): void {
+    if (this.processingEnabled === enabled) return;
+    this.processingEnabled = enabled;
+    this.lastInferenceAt = 0;
+    this.lastVideoTime = -1;
+    if (!enabled) {
+      this.clearCanvas();
+      this.smoothCursor = {};
+    }
   }
 
   stop(): void {
@@ -149,13 +170,16 @@ export class HandTracker {
     this.stream?.getTracks().forEach((track) => track.stop());
     this.stream = null;
     this.video.srcObject = null;
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.clearCanvas();
   }
 
   private loop = (): void => {
     if (!this.running) return;
     this.rafId = requestAnimationFrame(this.loop);
 
+    // Keep the video preview alive while completely skipping expensive inference
+    // during start/chapter/result overlays.
+    if (!this.processingEnabled) return;
     if (!this.handLandmarker || this.video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) return;
 
     const now = performance.now();
@@ -167,19 +191,25 @@ export class HandTracker {
 
     try {
       const raw = this.handLandmarker.detectForVideo(this.video, now) as unknown as ResultLike;
-      const frames = this.process(raw.landmarks ?? [], now);
-      this.draw(frames);
+      const geometry = this.measureStage();
+      const frames = this.process(raw.landmarks ?? [], now, geometry);
+      if (now - this.lastDrawAt >= APP_CONFIG.skeletonDrawIntervalMs) {
+        this.lastDrawAt = now;
+        this.draw(frames, geometry);
+      }
       this.callbacks.onFrames(frames);
     } catch (error) {
       this.callbacks.onError("Terjadi kesalahan saat membaca frame MediaPipe.", error);
     }
   };
 
-  private process(hands: NormalizedPoint[][], now: number): Map<PlayerId, HandFrame> {
+  private process(hands: NormalizedPoint[][], now: number, geometry: StageGeometry): Map<PlayerId, HandFrame> {
+    // Important performance optimization: stage geometry is measured ONCE per
+    // inference, then reused for all 21 landmarks × up to 2 hands.
     const candidates = hands
       .filter((landmarks) => landmarks.length >= 21)
       .map((landmarks) => {
-        const mapped = landmarks.map((landmark) => this.normalizedToClient(landmark));
+        const mapped = landmarks.map((landmark) => this.normalizedToClient(landmark, geometry));
         return { landmarks, mapped, cursor: mapped[8]! };
       })
       .sort((a, b) => a.cursor.x - b.cursor.x);
@@ -190,7 +220,7 @@ export class HandTracker {
       assigned.set(2, candidates[candidates.length - 1]!);
     } else if (candidates.length === 1) {
       const only = candidates[0]!;
-      const center = this.stage.getBoundingClientRect().left + this.stage.getBoundingClientRect().width / 2;
+      const center = geometry.left + geometry.width / 2;
       assigned.set(only.cursor.x < center ? 1 : 2, only);
     }
 
@@ -239,48 +269,35 @@ export class HandTracker {
     const rawCandidate = memory.stable
       ? ratio < APP_CONFIG.pinch.releaseRatio
       : ratio < APP_CONFIG.pinch.engageRatio;
-
     if (rawCandidate !== memory.candidate) {
       memory.candidate = rawCandidate;
       memory.candidateSince = now;
     }
-
     if (memory.stable !== memory.candidate && now - memory.candidateSince >= APP_CONFIG.pinch.debounceMs) {
       memory.stable = memory.candidate;
     }
-
     return memory.stable;
   }
-
 
   private updateFist(playerId: PlayerId, score: number, now: number): boolean {
     const memory = this.fistMemory[playerId];
     const rawCandidate = memory.stable
       ? score >= APP_CONFIG.fist.releaseScore
       : score >= APP_CONFIG.fist.engageScore;
-
     if (rawCandidate !== memory.candidate) {
       memory.candidate = rawCandidate;
       memory.candidateSince = now;
     }
-
     if (memory.stable !== memory.candidate && now - memory.candidateSince >= APP_CONFIG.fist.debounceMs) {
       memory.stable = memory.candidate;
     }
-
     return memory.stable;
   }
 
   private closedFistScore(points: NormalizedPoint[]): number {
     const wrist = points[0];
     if (!wrist) return 0;
-    const fingers = [
-      [5, 6, 8],
-      [9, 10, 12],
-      [13, 14, 16],
-      [17, 18, 20]
-    ] as const;
-
+    const fingers = [[5, 6, 8], [9, 10, 12], [13, 14, 16], [17, 18, 20]] as const;
     let total = 0;
     let strongExtended = 0;
     for (const [mcpIndex, pipIndex, tipIndex] of fingers) {
@@ -288,20 +305,15 @@ export class HandTracker {
       const pip = points[pipIndex];
       const tip = points[tipIndex];
       if (!mcp || !pip || !tip) continue;
-
       const angle = this.angleDeg(mcp, pip, tip);
       const angleCurl = clamp((155 - angle) / 55, 0, 1);
       const pipDistance = Math.max(0.0001, distance(wrist, pip));
       const foldRatio = distance(wrist, tip) / pipDistance;
       const foldCurl = clamp((1.12 - foldRatio) / 0.34, 0, 1);
       total += angleCurl * 0.72 + foldCurl * 0.28;
-
       if (angle > 158 && foldRatio > 1.06) strongExtended += 1;
     }
-
     let score = total / 4;
-    // Hindari salah baca gesture A/B/C/D sebagai kepalan: satu jari yang
-    // benar-benar lurus sudah cukup untuk menurunkan confidence secara tajam.
     if (strongExtended >= 1) score *= 0.22;
     return clamp(score, 0, 1);
   }
@@ -317,59 +329,71 @@ export class HandTracker {
     return Math.acos(clamp(dot / mag, -1, 1)) * 180 / Math.PI;
   }
 
-  private normalizedToClient(point: NormalizedPoint): Point {
+  private measureStage(): StageGeometry {
     const rect = this.stage.getBoundingClientRect();
     const videoWidth = this.video.videoWidth || rect.width;
     const videoHeight = this.video.videoHeight || rect.height;
     const scale = Math.max(rect.width / videoWidth, rect.height / videoHeight);
     const renderedWidth = videoWidth * scale;
     const renderedHeight = videoHeight * scale;
-    const offsetX = (rect.width - renderedWidth) / 2;
-    const offsetY = (rect.height - renderedHeight) / 2;
-
-    // Video is mirrored with CSS, therefore mirror the x coordinate as well.
-    const unmirroredLocalX = point.x * renderedWidth + offsetX;
-    const localX = rect.width - unmirroredLocalX;
-    const localY = point.y * renderedHeight + offsetY;
-
     return {
-      x: clamp(rect.left + localX, rect.left, rect.right),
-      y: clamp(rect.top + localY, rect.top, rect.bottom)
+      left: rect.left,
+      top: rect.top,
+      right: rect.right,
+      bottom: rect.bottom,
+      width: rect.width,
+      height: rect.height,
+      renderedWidth,
+      renderedHeight,
+      offsetX: (rect.width - renderedWidth) / 2,
+      offsetY: (rect.height - renderedHeight) / 2
     };
   }
 
-  private draw(frames: Map<PlayerId, HandFrame>): void {
-    const rect = this.stage.getBoundingClientRect();
-    this.ctx.clearRect(0, 0, rect.width, rect.height);
+  private normalizedToClient(point: NormalizedPoint, geometry: StageGeometry): Point {
+    const unmirroredLocalX = point.x * geometry.renderedWidth + geometry.offsetX;
+    const localX = geometry.width - unmirroredLocalX;
+    const localY = point.y * geometry.renderedHeight + geometry.offsetY;
+    return {
+      x: clamp(geometry.left + localX, geometry.left, geometry.right),
+      y: clamp(geometry.top + localY, geometry.top, geometry.bottom)
+    };
+  }
 
+  private draw(frames: Map<PlayerId, HandFrame>, geometry: StageGeometry): void {
+    this.ctx.clearRect(0, 0, geometry.width, geometry.height);
     frames.forEach((frame) => {
       const color = frame.playerId === 1 ? "#6ee7ff" : "#f7a8ff";
       this.ctx.strokeStyle = color;
       this.ctx.fillStyle = color;
-      this.ctx.lineWidth = 2.2;
-      this.ctx.globalAlpha = 0.95;
-
+      this.ctx.lineWidth = 2;
+      this.ctx.globalAlpha = 0.9;
       for (const [a, b] of CONNECTIONS) {
         const pa = frame.landmarks[a];
         const pb = frame.landmarks[b];
         if (!pa || !pb) continue;
         this.ctx.beginPath();
-        this.ctx.moveTo(pa.x - rect.left, pa.y - rect.top);
-        this.ctx.lineTo(pb.x - rect.left, pb.y - rect.top);
+        this.ctx.moveTo(pa.x - geometry.left, pa.y - geometry.top);
+        this.ctx.lineTo(pb.x - geometry.left, pb.y - geometry.top);
         this.ctx.stroke();
       }
-
       frame.landmarks.forEach((point, index) => {
         this.ctx.beginPath();
-        this.ctx.arc(point.x - rect.left, point.y - rect.top, index === 8 || index === 4 ? 5 : 3, 0, Math.PI * 2);
+        this.ctx.arc(point.x - geometry.left, point.y - geometry.top, index === 8 || index === 4 ? 4 : 2.5, 0, Math.PI * 2);
         this.ctx.fill();
       });
     });
     this.ctx.globalAlpha = 1;
   }
 
+  private clearCanvas(): void {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
   private resizeCanvas = (): void => {
     const rect = this.stage.getBoundingClientRect();
+    // Do not use devicePixelRatio here: a full-resolution Retina canvas can be
+    // needlessly expensive for a decorative skeleton overlay.
     this.canvas.width = Math.max(1, Math.round(rect.width));
     this.canvas.height = Math.max(1, Math.round(rect.height));
   };

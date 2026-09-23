@@ -55,3 +55,7 @@ Bank soal berada di `src/data/questions.json`.
 ## Privasi
 
 Video kamera diproses langsung di browser. Aplikasi tidak mengunggah video ke server.
+
+## Optimasi performa v2.5
+
+Versi ini mengurangi beban selama pertandingan panjang: kamera meminta 960×540, inferensi gesture berjalan sekitar 18 FPS, skeleton digambar sekitar 12 FPS, geometri layar dihitung satu kali per inference, pembaruan DOM dibatasi hanya saat nilainya berubah, blur realtime pada kartu permainan dihapus, dan inferensi MediaPipe otomatis berhenti saat layar setup/pergantian babak/hasil tampil. Video preview tetap aktif.
