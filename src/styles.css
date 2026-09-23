@@ -272,39 +272,39 @@ button { -webkit-tap-highlight-color: transparent; }
 html, body, #app, .game-shell, .stage { height: 100%; }
 .stage { height: 100dvh; min-height: 100dvh; }
 
-/* Dynamic readability: default is larger, then compact/tight scale down per question length. */
+/* Dynamic readability: text automatically grows to fill the panel, then scales down only when the question is denser. */
 .player-panel {
-  --question-font: clamp(.84rem, .95vw, 1rem);
-  --option-font: clamp(.9rem, .92vw, 1rem);
-  --option-letter: 38px;
-  --option-min-h: 68px;
-  --match-font: clamp(.82rem, .84vw, .94rem);
-  --match-target-font: clamp(.78rem, .82vw, .9rem);
-  --multi-font: clamp(.84rem, .86vw, .96rem);
-  --multi-min-h: 56px;
-  --submit-h: 42px;
+  --question-font: clamp(1rem, 0.58vw + 0.85vh, 1.22rem);
+  --option-font: clamp(.98rem, 0.52vw + 0.72vh, 1.12rem);
+  --option-letter: 40px;
+  --option-min-h: 70px;
+  --match-font: clamp(.92rem, 0.46vw + 0.6vh, 1.04rem);
+  --match-target-font: clamp(.88rem, 0.42vw + 0.56vh, .98rem);
+  --multi-font: clamp(.96rem, 0.48vw + 0.62vh, 1.08rem);
+  --multi-min-h: 58px;
+  --submit-h: 44px;
 }
 .player-panel[data-density="compact"] {
-  --question-font: clamp(.78rem, .88vw, .94rem);
-  --option-font: clamp(.84rem, .84vw, .94rem);
-  --option-letter: 36px;
-  --option-min-h: 60px;
-  --match-font: clamp(.76rem, .78vw, .88rem);
-  --match-target-font: clamp(.72rem, .76vw, .84rem);
-  --multi-font: clamp(.78rem, .8vw, .9rem);
-  --multi-min-h: 50px;
-  --submit-h: 40px;
+  --question-font: clamp(.92rem, 0.48vw + 0.74vh, 1.1rem);
+  --option-font: clamp(.9rem, 0.44vw + 0.62vh, 1.02rem);
+  --option-letter: 38px;
+  --option-min-h: 62px;
+  --match-font: clamp(.84rem, 0.4vw + 0.52vh, .96rem);
+  --match-target-font: clamp(.8rem, 0.36vw + 0.48vh, .9rem);
+  --multi-font: clamp(.88rem, 0.42vw + 0.54vh, 1rem);
+  --multi-min-h: 52px;
+  --submit-h: 42px;
 }
 .player-panel[data-density="tight"] {
-  --question-font: clamp(.72rem, .8vw, .88rem);
-  --option-font: clamp(.76rem, .78vw, .88rem);
-  --option-letter: 34px;
-  --option-min-h: 52px;
-  --match-font: clamp(.7rem, .72vw, .82rem);
-  --match-target-font: clamp(.67rem, .69vw, .79rem);
-  --multi-font: clamp(.72rem, .74vw, .84rem);
-  --multi-min-h: 46px;
-  --submit-h: 38px;
+  --question-font: clamp(.84rem, 0.42vw + 0.62vh, 1rem);
+  --option-font: clamp(.82rem, 0.38vw + 0.52vh, .94rem);
+  --option-letter: 36px;
+  --option-min-h: 56px;
+  --match-font: clamp(.76rem, 0.34vw + 0.44vh, .88rem);
+  --match-target-font: clamp(.72rem, 0.3vw + 0.4vh, .82rem);
+  --multi-font: clamp(.8rem, 0.36vw + 0.46vh, .92rem);
+  --multi-min-h: 48px;
+  --submit-h: 40px;
 }
 
 .topbar { padding: 10px 18px; }
@@ -322,12 +322,12 @@ html, body, #app, .game-shell, .stage { height: 100%; }
 .choice-grid, .boolean-grid, .matching-layout, .multi-list { flex: 1 1 auto; min-height: 0; }
 .choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(var(--option-min-h), auto); align-content: start; }
 .choice-option { min-height: var(--option-min-h); height: auto; padding: 10px; align-self: start; }
-.choice-option b { width: var(--option-letter); height: var(--option-letter); font-size: 1rem; }
+.choice-option b { width: var(--option-letter); height: var(--option-letter); font-size: clamp(.95rem, .28vw + .45vh, 1.08rem); }
 .choice-option span { font-size: var(--option-font); line-height: 1.33; }
 .boolean-grid { padding-top: 8px; }
-.boolean-option { min-height: 110px; }
-.boolean-option b { display: flex; align-items: center; gap: 8px; font-size: 2.4rem; }
-.boolean-option b i { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; font-size: .9rem; font-style: normal; color: #07111f; background: #f8fafc; }
+.boolean-option { min-height: clamp(96px, 10vh, 122px); }
+.boolean-option b { display: flex; align-items: center; gap: 8px; font-size: clamp(2rem, .6vw + 1.5vh, 2.55rem); }
+.boolean-option b i { width: clamp(28px, 2vw, 34px); height: clamp(28px, 2vw, 34px); display: grid; place-items: center; border-radius: 9px; font-size: clamp(.82rem, .18vw + .25vh, .95rem); font-style: normal; color: #07111f; background: #f8fafc; }
 .matching-layout { grid-template-columns: minmax(0,.82fr) minmax(0,1.18fr); }
 .match-left, .match-right { grid-auto-rows: minmax(46px, auto); align-content: start; gap: 8px; }
 .match-card, .match-target { min-height: 46px; height: auto; padding: 8px 10px; align-self: start; }
@@ -379,7 +379,7 @@ html, body, #app, .game-shell, .stage { height: 100%; }
   .player-area { height: calc(100dvh - 136px); padding-top: 4px; padding-bottom: 6px; }
   .player-panel { padding-top: 4px; padding-bottom: 6px; }
   .side-question-card { margin-top: 4px; padding: 8px 9px; }
-  .player-panel { --question-font: clamp(.72rem, .8vw, .86rem); --option-font: clamp(.76rem, .76vw, .88rem); --match-font: clamp(.68rem, .68vw, .8rem); --match-target-font: clamp(.65rem, .66vw, .76rem); --multi-font: clamp(.72rem, .72vw, .84rem); --option-min-h: 48px; --multi-min-h: 40px; }
+  .player-panel { --question-font: clamp(.84rem, .5vw + .48vh, .98rem); --option-font: clamp(.82rem, .44vw + .42vh, .94rem); --match-font: clamp(.76rem, .38vw + .34vh, .86rem); --match-target-font: clamp(.72rem, .34vw + .32vh, .8rem); --multi-font: clamp(.8rem, .38vw + .36vh, .9rem); --option-min-h: 50px; --multi-min-h: 42px; }
   .side-question-card .gesture-hint { margin-top: 4px; font-size: .61rem; }
   .choice-grid { gap: 6px; }
   .boolean-option { min-height: 82px; }
@@ -393,7 +393,7 @@ html, body, #app, .game-shell, .stage { height: 100%; }
   .matching-layout { grid-template-columns: minmax(0,.82fr) minmax(0,1.18fr); }
   .choice-grid { grid-template-columns: 1fr 1fr; }
   .boolean-grid { grid-template-columns: 1fr 1fr; }
-  .player-panel { --question-font: clamp(.68rem, 1.1vw, .82rem); --option-font: clamp(.72rem, 1.05vw, .86rem); --match-font: clamp(.66rem, 1vw, .8rem); --match-target-font: clamp(.63rem, .98vw, .76rem); --multi-font: clamp(.68rem, 1vw, .82rem); }
+  .player-panel { --question-font: clamp(.8rem, .92vw + .18vh, .96rem); --option-font: clamp(.8rem, .86vw + .14vh, .92rem); --match-font: clamp(.74rem, .8vw + .12vh, .86rem); --match-target-font: clamp(.7rem, .76vw + .1vh, .8rem); --multi-font: clamp(.78rem, .82vw + .12vh, .9rem); }
 }
 
 @media (max-width: 620px) {
@@ -405,7 +405,7 @@ html, body, #app, .game-shell, .stage { height: 100%; }
   .score-card { padding: 5px; }
   .subteam-mini, .team-score-main small { display: none; }
   .side-question-head strong { font-size: .62rem; }
-  .player-panel { --question-font: .58rem; --option-font: .58rem; --match-font: .54rem; --match-target-font: .53rem; --multi-font: .56rem; --option-letter: 25px; --option-min-h: 38px; --multi-min-h: 36px; }
+  .player-panel { --question-font: .64rem; --option-font: .64rem; --match-font: .58rem; --match-target-font: .56rem; --multi-font: .62rem; --option-letter: 26px; --option-min-h: 40px; --multi-min-h: 36px; }
   .side-stimulus { text-align: left; line-height: 1.24; }
   .side-question-card .gesture-hint { font-size: .5rem; }
   .choice-option { grid-template-columns: 27px 1fr; padding: 5px; gap: 5px; }
