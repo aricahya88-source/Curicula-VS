@@ -1,0 +1,23 @@
+{
+  "name": "curicula-vs",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit && node scripts/validate-data.mjs",
+    "check:data": "node scripts/validate-data.mjs"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "1.0.1"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "7.3.6"
+  }
+}

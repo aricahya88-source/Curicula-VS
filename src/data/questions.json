@@ -1,0 +1,617 @@
+[
+  {
+    "id": "pg-01",
+    "type": "single",
+    "chapter": 1,
+    "title": "Hakikat Kurikulum",
+    "stimulus": "Sebuah sekolah telah memiliki dokumen kurikulum yang lengkap. Namun, setiap guru menerjemahkan dokumen tersebut menjadi aktivitas belajar yang berbeda sesuai karakteristik mata pelajarannya. Dalam pembelajaran fisika, guru menggunakan diskusi, eksperimen, dan analisis fenomena sehari-hari. Dengan demikian, kurikulum tidak berhenti sebagai dokumen tertulis.",
+    "prompt": "Berdasarkan ilustrasi tersebut, pengertian kurikulum yang paling tepat adalah ...",
+    "options": [
+      "Daftar mata pelajaran yang harus diselesaikan siswa",
+      "Kumpulan buku yang digunakan dalam pembelajaran",
+      "Rencana dan pengalaman belajar untuk mencapai tujuan pendidikan",
+      "Jadwal pembelajaran yang disusun setiap semester"
+    ],
+    "correct": 2,
+    "explanation": "Kurikulum mencakup rencana sekaligus pengalaman belajar yang diarahkan untuk mencapai tujuan pendidikan, bukan sekadar daftar mata pelajaran atau dokumen administrasi."
+  },
+  {
+    "id": "pg-02",
+    "type": "single",
+    "chapter": 1,
+    "title": "Fungsi Kurikulum",
+    "stimulus": "Pak Andi akan mengajarkan gerak lurus selama beberapa pertemuan. Sebelum mengajar, ia menentukan kompetensi yang harus dicapai, materi yang akan dibahas, aktivitas eksperimen, dan bentuk asesmen. Semua keputusan tersebut disusun dengan mengacu pada kurikulum sekolah. Kurikulum membantu Pak Andi menjaga arah pembelajaran tetap konsisten.",
+    "prompt": "Dalam kondisi tersebut, fungsi utama kurikulum adalah ...",
+    "options": [
+      "Menjadi pedoman penyelenggaraan pembelajaran",
+      "Menggantikan kreativitas dan kompetensi guru",
+      "Menentukan seluruh perilaku peserta didik",
+      "Menjadi dokumen administrasi semata"
+    ],
+    "correct": 0,
+    "explanation": "Kurikulum berfungsi sebagai pedoman dalam merencanakan dan melaksanakan pembelajaran. Guru tetap menggunakan kompetensi profesionalnya untuk menerjemahkan pedoman tersebut sesuai konteks."
+  },
+  {
+    "id": "pg-03",
+    "type": "single",
+    "chapter": 1,
+    "title": "Komponen Kurikulum",
+    "stimulus": "Seorang guru akan mengajarkan konsep momentum dan tumbukan. Ia menentukan kemampuan yang harus dicapai siswa, memilih materi yang sesuai, merancang kegiatan eksperimen, lalu menentukan cara mengukur hasil belajar. Keempat bagian tersebut dirancang agar saling mendukung. Jika salah satunya tidak selaras, pembelajaran dapat kehilangan arah.",
+    "prompt": "Berdasarkan ilustrasi tersebut, unsur yang sedang dikembangkan guru merupakan ...",
+    "options": [
+      "Fungsi administrasi sekolah",
+      "Komponen kurikulum",
+      "Sejarah perkembangan kurikulum",
+      "Struktur organisasi sekolah"
+    ],
+    "correct": 1,
+    "explanation": "Tujuan, isi, proses pembelajaran, dan evaluasi merupakan komponen kurikulum yang saling berkaitan dan perlu dirancang secara selaras."
+  },
+  {
+    "id": "pg-04",
+    "type": "single",
+    "chapter": 1,
+    "title": "Keselarasan Komponen",
+    "stimulus": "Tujuan pembelajaran menyatakan bahwa siswa harus mampu menganalisis hubungan gaya, massa, dan percepatan berdasarkan data eksperimen. Selama pembelajaran siswa melakukan pengukuran dan membuat grafik. Namun, asesmen akhir hanya meminta siswa menuliskan bunyi Hukum Newton dari ingatan. Kemampuan yang diukur pada akhir pembelajaran menjadi berbeda dengan kemampuan yang ditargetkan.",
+    "prompt": "Berdasarkan kondisi tersebut, masalah utama dalam rancangan pembelajaran adalah ...",
+    "options": [
+      "Materi yang digunakan terlalu sedikit",
+      "Kegiatan eksperimen terlalu sulit",
+      "Siswa seharusnya tidak membuat grafik",
+      "Asesmen tidak selaras dengan tujuan pembelajaran"
+    ],
+    "correct": 3,
+    "explanation": "Jika tujuan menuntut analisis berbasis data, asesmen juga perlu mengukur kemampuan analisis. Tes hafalan saja tidak cukup merepresentasikan tujuan tersebut."
+  },
+  {
+    "id": "pg-05",
+    "type": "single",
+    "chapter": 1,
+    "title": "Prinsip Relevansi",
+    "stimulus": "Guru sedang membahas konsep energi dalam pelajaran fisika. Siswa tidak hanya menggunakan persamaan matematis, tetapi juga menghitung konsumsi listrik di rumah dan mendiskusikan cara menghemat energi. Guru kemudian menghubungkan temuan siswa dengan permasalahan energi di lingkungan sekitar. Pembelajaran menjadi lebih dekat dengan kehidupan siswa.",
+    "prompt": "Prinsip pengembangan kurikulum yang paling tampak dalam pembelajaran tersebut adalah ...",
+    "options": [
+      "Relevansi",
+      "Kontinuitas",
+      "Efisiensi",
+      "Keseragaman"
+    ],
+    "correct": 0,
+    "explanation": "Prinsip relevansi menuntut isi dan pengalaman belajar berkaitan dengan kebutuhan peserta didik, perkembangan masyarakat, serta konteks kehidupan nyata."
+  },
+  {
+    "id": "pg-06",
+    "type": "single",
+    "chapter": 1,
+    "title": "Prinsip Fleksibilitas",
+    "stimulus": "Dua sekolah memiliki tujuan pembelajaran fisika yang sama, tetapi fasilitas laboratoriumnya berbeda. Sekolah pertama menggunakan sensor gerak digital, sedangkan sekolah kedua menggunakan mobil mainan, meteran, dan stopwatch. Kedua guru tetap berusaha mencapai kompetensi yang sama dengan sumber daya yang tersedia. Strategi dan media disesuaikan tanpa mengubah arah capaian.",
+    "prompt": "Kondisi tersebut paling tepat menunjukkan prinsip ...",
+    "options": [
+      "Kontinuitas",
+      "Efektivitas",
+      "Fleksibilitas",
+      "Sentralisasi"
+    ],
+    "correct": 2,
+    "explanation": "Fleksibilitas berarti pelaksanaan pembelajaran dapat disesuaikan dengan kondisi peserta didik, satuan pendidikan, dan sumber daya, sambil tetap menjaga tujuan yang harus dicapai."
+  },
+  {
+    "id": "pg-07",
+    "type": "single",
+    "chapter": 1,
+    "title": "KTSP 2006",
+    "stimulus": "Sebuah sekolah ingin mengembangkan pembelajaran yang sesuai dengan kondisi peserta didik dan potensi daerahnya. Satuan pendidikan diberi ruang menyusun kurikulum operasional, tetapi tetap mengacu pada Standar Isi dan Standar Kompetensi Lulusan. Guru dan sekolah mempunyai peran besar dalam menerjemahkan standar tersebut ke dalam program pembelajaran. Karakteristik ini menonjolkan pengembangan kurikulum di tingkat satuan pendidikan.",
+    "prompt": "Karakteristik tersebut paling sesuai dengan ...",
+    "options": [
+      "Kurikulum 2013",
+      "KTSP 2006",
+      "Kurikulum Merdeka",
+      "Kebijakan kurikulum 2025"
+    ],
+    "correct": 1,
+    "explanation": "KTSP 2006 dikembangkan oleh satuan pendidikan dengan mengacu pada standar nasional. Karena itu, sekolah memiliki ruang menyesuaikan kurikulum dengan konteks dan kebutuhannya."
+  },
+  {
+    "id": "pg-08",
+    "type": "single",
+    "chapter": 1,
+    "title": "Kurikulum 2013",
+    "stimulus": "Pada suatu periode, pembelajaran diarahkan agar peserta didik tidak hanya menguasai pengetahuan. Pembelajaran juga diarahkan untuk mengembangkan keterampilan serta sikap melalui berbagai pengalaman belajar. Dalam fisika, siswa mengamati fenomena, melakukan percobaan, mengolah informasi, dan mengomunikasikan hasilnya. Penilaian juga melihat kemampuan peserta didik secara lebih utuh.",
+    "prompt": "Karakteristik tersebut paling erat berkaitan dengan ...",
+    "options": [
+      "KTSP 2006",
+      "Kurikulum yang berorientasi hafalan",
+      "Sistem pembelajaran tanpa asesmen",
+      "Kurikulum 2013"
+    ],
+    "correct": 3,
+    "explanation": "Kurikulum 2013 menekankan pengembangan kompetensi secara utuh yang mencakup sikap, pengetahuan, dan keterampilan, serta proses pembelajaran yang aktif."
+  },
+  {
+    "id": "pg-09",
+    "type": "single",
+    "chapter": 1,
+    "title": "Kurikulum Merdeka",
+    "stimulus": "Guru fisika menemukan bahwa kemampuan awal siswa dalam memahami grafik gerak sangat beragam. Ia tetap mengacu pada capaian yang harus dikuasai, tetapi memberikan aktivitas dan dukungan belajar yang berbeda sesuai kebutuhan siswa. Guru juga mempunyai ruang memilih langkah pembelajaran yang paling sesuai dengan kondisi kelasnya. Fokusnya adalah membantu semua siswa mencapai kompetensi esensial melalui jalur belajar yang sesuai.",
+    "prompt": "Karakteristik tersebut paling sesuai dengan semangat ...",
+    "options": [
+      "Pembelajaran yang sepenuhnya seragam",
+      "Kurikulum yang hanya berorientasi materi",
+      "Kurikulum Merdeka",
+      "Sistem pembelajaran tanpa tujuan"
+    ],
+    "correct": 2,
+    "explanation": "Kurikulum Merdeka memberikan ruang fleksibilitas kepada pendidik untuk mengatur pembelajaran berdasarkan capaian dan kebutuhan peserta didik, dengan fokus pada kompetensi esensial."
+  },
+  {
+    "id": "pg-10",
+    "type": "single",
+    "chapter": 1,
+    "title": "Kebijakan Kurikulum 2025",
+    "stimulus": "Pada tahun 2025 diterbitkan kebijakan yang melakukan sejumlah penyesuaian dalam pelaksanaan kurikulum. Penguatan tersebut antara lain mencakup pendekatan pembelajaran mendalam serta penambahan Koding dan Kecerdasan Artifisial sebagai mata pelajaran pilihan. Kebijakan tersebut tidak dimaksudkan untuk mengganti seluruh kurikulum nasional dengan kurikulum baru. Sekolah tetap melaksanakan kurikulum yang berlaku dengan sejumlah penguatan.",
+    "prompt": "Kesimpulan yang paling tepat adalah ...",
+    "options": [
+      "Kebijakan 2025 merupakan penyesuaian dan penguatan kurikulum yang berlaku",
+      "Semua sekolah wajib mengganti kurikulumnya dengan kurikulum baru",
+      "Kurikulum sebelumnya dihentikan seluruhnya",
+      "Koding dan Kecerdasan Artifisial wajib untuk semua siswa"
+    ],
+    "correct": 0,
+    "explanation": "Kebijakan 2025 merupakan penyesuaian terhadap kurikulum yang berlaku. Pembelajaran mendalam diperkuat, sedangkan Koding dan Kecerdasan Artifisial disediakan sebagai mata pelajaran pilihan sesuai ketentuan."
+  },
+  {
+    "id": "bs-01",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Hakikat Kurikulum",
+    "stimulus": "Sekolah menyusun kurikulum untuk mengarahkan kegiatan pendidikan yang akan dilakukan. Guru kemudian menerjemahkannya menjadi tujuan, materi, aktivitas, dan pengalaman belajar di kelas. Dalam pembelajaran fisika, penerapannya dapat berupa eksperimen, diskusi, maupun pemecahan masalah. Cakupan kurikulum karena itu lebih luas daripada daftar mata pelajaran.",
+    "prompt": "Pernyataan “kurikulum hanya merupakan daftar mata pelajaran yang harus diajarkan” adalah ...",
+    "correct": false,
+    "explanation": "Pernyataan tersebut salah. Kurikulum mencakup tujuan, isi, pengalaman belajar, proses, dan evaluasi yang membentuk arah pendidikan."
+  },
+  {
+    "id": "bs-02",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Fungsi Kurikulum",
+    "stimulus": "Guru akan mengembangkan pembelajaran mengenai listrik dinamis. Ia menggunakan kurikulum untuk menentukan kemampuan yang harus dicapai siswa, aktivitas yang sesuai, dan bentuk penilaian. Kurikulum memberikan arah tetapi guru tetap perlu mengambil keputusan pedagogis sesuai kondisi kelas. Dengan demikian, kurikulum menjadi rujukan penting dalam perencanaan.",
+    "prompt": "Pernyataan “kurikulum dapat berfungsi sebagai pedoman dalam merancang pembelajaran” adalah ...",
+    "correct": true,
+    "explanation": "Pernyataan tersebut benar. Salah satu fungsi kurikulum adalah memberikan arah dan pedoman bagi perencanaan serta pelaksanaan pembelajaran."
+  },
+  {
+    "id": "bs-03",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Komponen Kurikulum",
+    "stimulus": "Dalam satu unit pembelajaran, guru menentukan tujuan, materi, kegiatan belajar, dan evaluasi. Setiap komponen mempunyai fungsi berbeda tetapi saling memengaruhi. Apabila tujuan meminta kemampuan menganalisis, kegiatan dan evaluasi juga perlu memberikan kesempatan siswa melakukan analisis. Keselarasan antarkomponen membantu tujuan tercapai secara konsisten.",
+    "prompt": "Pernyataan “komponen kurikulum dapat dirancang secara terpisah tanpa perlu saling selaras” adalah ...",
+    "correct": false,
+    "explanation": "Pernyataan tersebut salah. Komponen kurikulum perlu saling berhubungan; ketidaksesuaian antara tujuan, proses, isi, dan evaluasi dapat mengurangi efektivitas pembelajaran."
+  },
+  {
+    "id": "bs-04",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Fleksibilitas",
+    "stimulus": "Sekolah A mempunyai laboratorium modern, sedangkan Sekolah B hanya memiliki alat sederhana. Guru pada kedua sekolah mengembangkan aktivitas berbeda agar kompetensi yang sama tetap dapat dicapai. Penyesuaian dilakukan pada strategi dan sumber belajar, bukan dengan menghilangkan tujuan pembelajaran. Kondisi sekolah menjadi pertimbangan dalam memilih cara belajar.",
+    "prompt": "Pernyataan “fleksibilitas memungkinkan pembelajaran disesuaikan dengan kondisi satuan pendidikan” adalah ...",
+    "correct": true,
+    "explanation": "Pernyataan tersebut benar. Fleksibilitas memberi ruang penyesuaian cara, media, dan sumber belajar sesuai konteks tanpa kehilangan tujuan utama."
+  },
+  {
+    "id": "bs-05",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Evaluasi",
+    "stimulus": "Setelah praktikum, guru mengamati proses kerja kelompok, memeriksa laporan, dan memberikan umpan balik. Hasil tersebut digunakan untuk mengetahui ketercapaian belajar sekaligus memperbaiki pembelajaran berikutnya. Nilai akhir hanyalah salah satu informasi yang diperoleh dari proses tersebut. Evaluasi membantu guru mengambil keputusan tindak lanjut.",
+    "prompt": "Pernyataan “evaluasi hanya berfungsi memberikan nilai akhir kepada siswa” adalah ...",
+    "correct": false,
+    "explanation": "Pernyataan tersebut salah. Evaluasi juga berfungsi mengetahui ketercapaian tujuan, mengidentifikasi kesulitan, memberikan umpan balik, dan memperbaiki pembelajaran."
+  },
+  {
+    "id": "bs-06",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Kontinuitas",
+    "stimulus": "Siswa mempelajari pengukuran pada tahap awal, kemudian menggunakan kemampuan tersebut ketika melakukan eksperimen gerak, gaya, dan energi. Kemampuan sebelumnya menjadi dasar untuk mempelajari konsep yang lebih kompleks. Materi dan pengalaman belajar disusun agar perkembangan kemampuan berlangsung berkesinambungan. Pembelajaran pada satu tahap mendukung pembelajaran tahap berikutnya.",
+    "prompt": "Pernyataan “prinsip kontinuitas menekankan kesinambungan pengalaman belajar” adalah ...",
+    "correct": true,
+    "explanation": "Pernyataan tersebut benar. Kontinuitas berarti pengalaman dan kompetensi disusun berkesinambungan secara vertikal maupun horizontal."
+  },
+  {
+    "id": "bs-07",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "KTSP 2006",
+    "stimulus": "Pada KTSP, sekolah tidak menyusun seluruh kurikulum tanpa acuan. Satuan pendidikan mengembangkan kurikulum operasional berdasarkan Standar Isi dan Standar Kompetensi Lulusan serta panduan yang berlaku. Dengan demikian terdapat ruang pengembangan di tingkat sekolah sekaligus standar nasional yang menjadi rujukan. Sekolah dapat mempertimbangkan kebutuhan dan karakteristik lingkungannya.",
+    "prompt": "Pernyataan “KTSP memberi satuan pendidikan ruang mengembangkan kurikulum operasionalnya” adalah ...",
+    "correct": true,
+    "explanation": "Pernyataan tersebut benar. Ciri penting KTSP adalah pengembangan kurikulum oleh satuan pendidikan dengan tetap mengacu pada standar yang ditetapkan secara nasional."
+  },
+  {
+    "id": "bs-08",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Kurikulum 2013",
+    "stimulus": "Dalam Kurikulum 2013, pembelajaran tidak hanya memperhatikan pengetahuan. Kompetensi sikap dan keterampilan juga menjadi bagian dari capaian pendidikan. Karena itu, kegiatan belajar dan penilaian dapat dirancang untuk melihat kemampuan siswa secara lebih luas. Pendekatan pembelajaran mendorong siswa lebih aktif membangun pengalaman belajar.",
+    "prompt": "Pernyataan “Kurikulum 2013 hanya menekankan kemampuan kognitif peserta didik” adalah ...",
+    "correct": false,
+    "explanation": "Pernyataan tersebut salah. Kurikulum 2013 mengembangkan kompetensi sikap, pengetahuan, dan keterampilan secara terpadu."
+  },
+  {
+    "id": "bs-09",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Kurikulum dan Fisika",
+    "stimulus": "Perubahan orientasi kurikulum dapat menyebabkan guru meninjau kembali kegiatan belajar yang dilakukan siswa. Jika kompetensi menekankan penyelidikan, guru dapat memperbanyak eksperimen, analisis data, dan diskusi berdasarkan bukti. Cara menilai hasil belajar juga perlu disesuaikan dengan kompetensi tersebut. Kurikulum dengan demikian dapat memengaruhi praktik pembelajaran di kelas.",
+    "prompt": "Pernyataan “perubahan kurikulum dapat memengaruhi cara fisika diajarkan dan dinilai” adalah ...",
+    "correct": true,
+    "explanation": "Pernyataan tersebut benar. Orientasi kurikulum memengaruhi tujuan, pengalaman belajar, metode, dan asesmen yang digunakan dalam pembelajaran fisika."
+  },
+  {
+    "id": "bs-10",
+    "type": "boolean",
+    "chapter": 2,
+    "title": "Kebijakan 2025",
+    "stimulus": "Kebijakan kurikulum tahun 2025 memperkenalkan sejumlah penguatan dalam pelaksanaan pembelajaran. Di antaranya terdapat pendekatan pembelajaran mendalam dan mata pelajaran pilihan Koding dan Kecerdasan Artifisial. Pemerintah menjelaskan bahwa perubahan tersebut bukan pergantian menuju kurikulum nasional yang sepenuhnya baru. Penyesuaian dilakukan pada kerangka kurikulum yang berlaku.",
+    "prompt": "Pernyataan “tahun 2025 seluruh kurikulum sebelumnya diganti dengan kurikulum baru” adalah ...",
+    "correct": false,
+    "explanation": "Pernyataan tersebut salah. Kebijakan 2025 merupakan penguatan dan penyesuaian terhadap kurikulum yang berlaku, bukan penggantian seluruh kurikulum nasional."
+  },
+  {
+    "id": "match-01",
+    "type": "matching",
+    "chapter": 3,
+    "title": "Komponen Kurikulum",
+    "stimulus": "Seorang guru sedang menyusun pembelajaran fisika untuk satu unit pembelajaran. Ia perlu menentukan kemampuan yang diharapkan, konsep yang akan dipelajari, pengalaman yang dilakukan siswa, dan cara mengetahui hasil belajarnya. Keempat bagian tersebut harus saling berhubungan agar proses pembelajaran memiliki arah yang jelas.",
+    "prompt": "Jodohkan setiap komponen kurikulum berikut dengan fungsi yang paling tepat.",
+    "pairs": [
+      {
+        "id": "a",
+        "left": "Tujuan",
+        "right": "Kompetensi yang ingin dicapai"
+      },
+      {
+        "id": "b",
+        "left": "Isi",
+        "right": "Materi yang dipelajari"
+      },
+      {
+        "id": "c",
+        "left": "Proses",
+        "right": "Aktivitas untuk mencapai tujuan"
+      },
+      {
+        "id": "d",
+        "left": "Evaluasi",
+        "right": "Menilai ketercapaian tujuan"
+      }
+    ],
+    "explanation": "Tujuan menjelaskan kompetensi yang ingin dicapai, isi memuat materi, proses mengatur pengalaman belajar, dan evaluasi digunakan untuk menilai ketercapaian tujuan."
+  },
+  {
+    "id": "match-02",
+    "type": "matching",
+    "chapter": 3,
+    "title": "Prinsip Kurikulum",
+    "stimulus": "Kurikulum yang baik perlu dikembangkan berdasarkan sejumlah prinsip. Materi perlu sesuai kebutuhan, pelaksanaannya memungkinkan penyesuaian, pengalaman belajar perlu berkelanjutan, dan tujuan perlu benar-benar dapat dicapai. Prinsip tersebut dapat terlihat secara langsung dalam keputusan yang dibuat guru maupun satuan pendidikan.",
+    "prompt": "Jodohkan prinsip berikut dengan pengertiannya.",
+    "pairs": [
+      {
+        "id": "a",
+        "left": "Relevansi",
+        "right": "Sesuai kebutuhan dan perkembangan"
+      },
+      {
+        "id": "b",
+        "left": "Fleksibilitas",
+        "right": "Dapat menyesuaikan kondisi"
+      },
+      {
+        "id": "c",
+        "left": "Kontinuitas",
+        "right": "Berkesinambungan antartahap"
+      },
+      {
+        "id": "d",
+        "left": "Efektivitas",
+        "right": "Mendorong tercapainya tujuan"
+      }
+    ],
+    "explanation": "Relevansi berkaitan dengan kesesuaian, fleksibilitas dengan kemampuan menyesuaikan kondisi, kontinuitas dengan kesinambungan, dan efektivitas dengan ketercapaian tujuan."
+  },
+  {
+    "id": "match-03",
+    "type": "matching",
+    "chapter": 3,
+    "title": "Pembelajaran Fisika",
+    "stimulus": "Guru akan mengajarkan Hukum Newton melalui penyelidikan sederhana. Ia menetapkan bahwa siswa harus mampu menganalisis hubungan gaya dan percepatan, kemudian menyiapkan materi, eksperimen, serta tugas analisis data. Dengan demikian, setiap komponen kurikulum diterjemahkan menjadi kegiatan konkret dalam pembelajaran fisika.",
+    "prompt": "Jodohkan unsur berikut dengan contoh penerapannya.",
+    "pairs": [
+      {
+        "id": "a",
+        "left": "Tujuan",
+        "right": "Menganalisis hubungan gaya dan percepatan"
+      },
+      {
+        "id": "b",
+        "left": "Isi",
+        "right": "Hukum Newton"
+      },
+      {
+        "id": "c",
+        "left": "Proses",
+        "right": "Melakukan eksperimen dinamika"
+      },
+      {
+        "id": "d",
+        "left": "Evaluasi",
+        "right": "Menganalisis data hasil percobaan"
+      }
+    ],
+    "explanation": "Contoh tersebut menunjukkan keselarasan tujuan, isi, proses, dan evaluasi dalam satu konteks pembelajaran Hukum Newton."
+  },
+  {
+    "id": "match-04",
+    "type": "matching",
+    "chapter": 3,
+    "title": "Perkembangan Kurikulum",
+    "stimulus": "Perkembangan kurikulum setelah 2006 menunjukkan perubahan orientasi dalam pengelolaan dan proses pembelajaran. KTSP memberi ruang pengembangan kurikulum di tingkat satuan pendidikan, Kurikulum 2013 menekankan kompetensi secara lebih utuh, dan Kurikulum Merdeka memberi ruang fleksibilitas pembelajaran. Kebijakan 2025 kemudian memberikan sejumlah penguatan tanpa menetapkan kurikulum nasional baru.",
+    "prompt": "Jodohkan periode berikut dengan karakteristik yang paling sesuai.",
+    "pairs": [
+      {
+        "id": "a",
+        "left": "KTSP 2006",
+        "right": "Kurikulum operasional dikembangkan satuan pendidikan"
+      },
+      {
+        "id": "b",
+        "left": "Kurikulum 2013",
+        "right": "Keseimbangan sikap, pengetahuan, keterampilan"
+      },
+      {
+        "id": "c",
+        "left": "Kurikulum Merdeka",
+        "right": "Fleksibilitas mencapai capaian pembelajaran"
+      },
+      {
+        "id": "d",
+        "left": "Kebijakan 2025",
+        "right": "Penguatan, bukan kurikulum baru"
+      }
+    ],
+    "explanation": "Keempat pasangan merangkum perubahan utama sejak KTSP 2006 hingga penyesuaian kebijakan 2025 tanpa menyamakan karakteristik antarperiode."
+  },
+  {
+    "id": "match-05",
+    "type": "matching",
+    "chapter": 3,
+    "title": "Implikasi Perubahan",
+    "stimulus": "Perubahan pada satu komponen kurikulum dapat menimbulkan perubahan pada komponen lainnya. Jika tujuan menuntut kemampuan penyelidikan, proses belajar perlu memberikan pengalaman menyelidiki dan asesmen perlu mengukur kemampuan tersebut. Karena itu, guru harus dapat menerjemahkan tuntutan kurikulum menjadi tindakan pembelajaran yang konsisten.",
+    "prompt": "Jodohkan bentuk perubahan berikut dengan implikasi yang paling logis.",
+    "pairs": [
+      {
+        "id": "a",
+        "left": "Tujuan berubah",
+        "right": "Kompetensi yang ditargetkan disesuaikan"
+      },
+      {
+        "id": "b",
+        "left": "Isi berubah",
+        "right": "Materi belajar ditinjau kembali"
+      },
+      {
+        "id": "c",
+        "left": "Proses berubah",
+        "right": "Aktivitas siswa disesuaikan"
+      },
+      {
+        "id": "d",
+        "left": "Evaluasi berubah",
+        "right": "Cara mengukur capaian disesuaikan"
+      }
+    ],
+    "explanation": "Perubahan tujuan memengaruhi kompetensi, perubahan isi memengaruhi materi, perubahan proses memengaruhi aktivitas belajar, dan perubahan evaluasi memengaruhi cara mengukur capaian."
+  },
+  {
+    "id": "multi-01",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Hakikat Kurikulum",
+    "stimulus": "Sebuah sekolah sedang mengevaluasi pelaksanaan kurikulumnya. Tim menemukan bahwa kurikulum tidak hanya menentukan materi, tetapi juga memberikan arah terhadap tujuan, aktivitas, dan pengalaman belajar peserta didik. Guru menggunakan arah tersebut untuk menyusun pembelajaran sesuai karakteristik mata pelajarannya. Kurikulum karena itu memiliki cakupan yang lebih luas daripada sekadar dokumen.",
+    "prompt": "Berdasarkan ilustrasi tersebut, hal yang menunjukkan cakupan kurikulum adalah ...",
+    "options": [
+      "Mengarahkan tujuan pendidikan",
+      "Hanya menentukan buku yang harus digunakan",
+      "Mengatur pengalaman belajar",
+      "Menjadi pedoman pembelajaran"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "explanation": "Kurikulum mengarahkan tujuan, pengalaman belajar, dan pelaksanaan pembelajaran. Menentukan satu buku tertentu bukanlah hakikat utama kurikulum."
+  },
+  {
+    "id": "multi-02",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Komponen Kurikulum",
+    "stimulus": "Guru akan merancang pembelajaran tentang listrik dinamis. Ia menentukan kemampuan yang harus dicapai, memilih konsep yang akan dipelajari, menyiapkan aktivitas eksperimen, dan merancang cara menilai hasil belajar. Keempat hal tersebut saling mendukung agar pembelajaran tidak kehilangan arah. Unsur nonakademik yang tidak berkaitan langsung tidak termasuk komponen utama tersebut.",
+    "prompt": "Berdasarkan ilustrasi tersebut, yang termasuk komponen kurikulum adalah ...",
+    "options": [
+      "Tujuan",
+      "Isi",
+      "Proses pembelajaran",
+      "Warna ruang kelas"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Tujuan, isi, proses pembelajaran, dan evaluasi merupakan komponen kurikulum. Warna ruang kelas bukan komponen utama kurikulum."
+  },
+  {
+    "id": "multi-03",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Prinsip Relevansi",
+    "stimulus": "Perkembangan teknologi menyebabkan banyak fenomena fisika semakin dekat dengan kehidupan sehari-hari, seperti panel surya, kendaraan listrik, dan sensor digital. Guru perlu mempertimbangkan perkembangan ilmu, kebutuhan peserta didik, serta kehidupan masyarakat ketika merancang pengalaman belajar. Kurikulum yang tidak memperhatikan perkembangan tersebut berisiko kehilangan relevansinya. Keputusan pembelajaran seharusnya tidak hanya didasarkan pada preferensi pribadi guru.",
+    "prompt": "Berdasarkan kondisi tersebut, faktor yang perlu dipertimbangkan adalah ...",
+    "options": [
+      "Perkembangan ilmu dan teknologi",
+      "Kesukaan pribadi seorang guru",
+      "Kebutuhan peserta didik",
+      "Perkembangan masyarakat"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "explanation": "Prinsip relevansi menghubungkan kurikulum dengan kebutuhan peserta didik, perkembangan masyarakat, serta ilmu pengetahuan dan teknologi."
+  },
+  {
+    "id": "multi-04",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Fleksibilitas",
+    "stimulus": "Sekolah memiliki keterbatasan alat untuk praktikum gerak. Guru tetap ingin siswa memperoleh pengalaman melakukan pengukuran dan menganalisis data. Ia mempertimbangkan penggunaan alat sederhana, simulasi digital, dan benda-benda yang tersedia di sekitar sekolah. Tujuan eksperimen tetap dipertahankan meskipun sarana belajar disesuaikan.",
+    "prompt": "Tindakan yang sesuai dengan prinsip fleksibilitas adalah ...",
+    "options": [
+      "Menghapus kompetensi eksperimen",
+      "Menggunakan peralatan sederhana",
+      "Menggunakan simulasi jika diperlukan",
+      "Memanfaatkan sumber daya lingkungan"
+    ],
+    "correct": [
+      1,
+      2,
+      3
+    ],
+    "explanation": "Fleksibilitas dapat diwujudkan melalui penyesuaian alat, media, dan sumber belajar. Menghapus kompetensi bukan bentuk penyesuaian yang tepat."
+  },
+  {
+    "id": "multi-05",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Keselarasan Pembelajaran",
+    "stimulus": "Tujuan pembelajaran menyatakan bahwa siswa harus mampu menyelidiki faktor-faktor yang memengaruhi periode ayunan. Guru kemudian meminta siswa merancang percobaan, memperoleh data, dan membuat grafik hasil pengamatan. Pada akhir pembelajaran siswa menjelaskan hubungan antara variabel berdasarkan bukti yang diperoleh. Seluruh kegiatan seharusnya mengarah pada kompetensi penyelidikan yang sama.",
+    "prompt": "Hal yang menunjukkan adanya keselarasan pembelajaran adalah ...",
+    "options": [
+      "Aktivitas siswa mendukung tujuan",
+      "Asesmen mengukur kemampuan yang ditargetkan",
+      "Pengalaman belajar memberi kesempatan melakukan penyelidikan",
+      "Soal akhir hanya menguji hafalan definisi"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Keselarasan terjadi ketika aktivitas, pengalaman belajar, dan asesmen semuanya mendukung kompetensi yang dirumuskan dalam tujuan."
+  },
+  {
+    "id": "multi-06",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Fungsi Evaluasi",
+    "stimulus": "Setelah mengajar, guru menemukan bahwa sebagian siswa memahami konsep tetapi masih kesulitan menginterpretasikan grafik. Guru menggunakan hasil tugas, pengamatan proses, dan asesmen untuk menentukan bagian yang perlu diperbaiki. Informasi tersebut juga digunakan untuk merancang pembelajaran berikutnya. Evaluasi dengan demikian menghasilkan informasi untuk berbagai keputusan pembelajaran.",
+    "prompt": "Berdasarkan ilustrasi tersebut, fungsi evaluasi meliputi ...",
+    "options": [
+      "Mengetahui ketercapaian pembelajaran",
+      "Memberikan informasi untuk perbaikan pembelajaran",
+      "Mengidentifikasi kesulitan siswa",
+      "Hanya menentukan peringkat kelas"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Evaluasi digunakan untuk melihat ketercapaian, menemukan kesulitan, dan memperbaiki pembelajaran. Peringkat bukan satu-satunya atau fungsi utama evaluasi."
+  },
+  {
+    "id": "multi-07",
+    "type": "multi",
+    "chapter": 4,
+    "title": "KTSP 2006",
+    "stimulus": "Pada penerapan KTSP, sekolah tidak bekerja tanpa rambu-rambu nasional. Satuan pendidikan mengembangkan kurikulum operasional berdasarkan Standar Isi dan Standar Kompetensi Lulusan serta menggunakan pedoman yang berlaku. Kondisi dan kebutuhan sekolah dapat menjadi pertimbangan dalam pengembangan kurikulum tersebut. Hal ini memberi ruang pengembangan lokal dengan tetap menjaga acuan nasional.",
+    "prompt": "Berdasarkan karakteristik tersebut, pernyataan yang tepat mengenai KTSP adalah ...",
+    "options": [
+      "Kurikulum operasional dikembangkan oleh satuan pendidikan",
+      "Sekolah sama sekali tidak memiliki ruang pengembangan",
+      "Pengembangannya mengacu pada standar nasional",
+      "Kondisi satuan pendidikan dapat menjadi pertimbangan"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "explanation": "KTSP dikembangkan oleh satuan pendidikan berdasarkan standar nasional dengan mempertimbangkan karakteristik dan kebutuhan satuan pendidikan."
+  },
+  {
+    "id": "multi-08",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Kurikulum 2013",
+    "stimulus": "Guru tidak hanya memberikan tes tertulis ketika menilai pembelajaran. Ia juga memperhatikan keterampilan siswa melakukan praktikum serta perkembangan sikap selama kegiatan berlangsung. Proses pembelajaran memberikan kesempatan siswa mengamati, mencoba, menalar, dan mengomunikasikan hasil. Penilaian dan pembelajaran diarahkan pada kompetensi peserta didik secara lebih utuh.",
+    "prompt": "Berdasarkan karakteristik tersebut, hal yang sesuai dengan Kurikulum 2013 adalah ...",
+    "options": [
+      "Mengembangkan pengetahuan",
+      "Mengembangkan keterampilan",
+      "Mengembangkan sikap",
+      "Hanya mengukur kemampuan menghafal"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Kurikulum 2013 mengembangkan sikap, pengetahuan, dan keterampilan secara terpadu; karena itu penilaian tidak hanya berfokus pada hafalan."
+  },
+  {
+    "id": "multi-09",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Kurikulum Merdeka",
+    "stimulus": "Dalam satu kelas, kemampuan awal siswa dalam memahami konsep energi berbeda-beda. Guru tetap menetapkan capaian yang hendak dicapai, tetapi dapat menyesuaikan aktivitas, dukungan, dan sumber belajar yang digunakan. Sebagian siswa menggunakan eksperimen langsung, sedangkan siswa lain memperoleh bantuan melalui simulasi dan contoh tambahan. Fleksibilitas digunakan untuk membantu siswa menuju capaian yang sama.",
+    "prompt": "Tindakan yang sesuai dengan pendekatan tersebut adalah ...",
+    "options": [
+      "Menyesuaikan strategi dengan kebutuhan belajar",
+      "Mempertahankan tujuan pembelajaran yang jelas",
+      "Memberikan satu cara belajar yang mutlak sama untuk seluruh siswa",
+      "Menggunakan sumber belajar yang beragam"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "explanation": "Pembelajaran dapat menyesuaikan strategi dan sumber belajar dengan kebutuhan siswa sambil tetap menjaga capaian yang ingin dituju."
+  },
+  {
+    "id": "multi-10",
+    "type": "multi",
+    "chapter": 4,
+    "title": "Kebijakan 2025",
+    "stimulus": "Pada 2025 pemerintah melakukan penyesuaian terhadap kebijakan kurikulum yang berlaku. Penyesuaian tersebut antara lain menguatkan pendekatan pembelajaran mendalam dan membuka mata pelajaran pilihan Koding serta Kecerdasan Artifisial sesuai ketentuan dan sumber daya satuan pendidikan. Pemerintah juga menegaskan bahwa kebijakan tersebut bukan perubahan menuju kurikulum nasional baru. Karena itu, beberapa penguatan perlu dibedakan dari kewajiban yang berlaku untuk semua sekolah.",
+    "prompt": "Berdasarkan informasi tersebut, pernyataan yang benar adalah ...",
+    "options": [
+      "Pendekatan pembelajaran mendalam diperkuat",
+      "Seluruh sekolah diwajibkan menyediakan Koding dan Kecerdasan Artifisial",
+      "Koding dan Kecerdasan Artifisial dapat menjadi mata pelajaran pilihan",
+      "Kebijakan tersebut bukan pergantian kurikulum nasional"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "explanation": "Kebijakan 2025 memperkuat pembelajaran mendalam dan membuka Koding serta Kecerdasan Artifisial sebagai pilihan. Kebijakan tersebut bukan penggantian kurikulum nasional secara keseluruhan."
+  }
+]
