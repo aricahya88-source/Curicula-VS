@@ -420,6 +420,18 @@ function resetPlayerForQuestion(id: PlayerId): void {
   setGestureMessage(id, "Tunjukkan gesture", 0);
 }
 
+function estimateDensity(q: PreparedQuestion): "normal" | "compact" | "tight" {
+  const optionText = q.type === "matching"
+    ? q.pairs.map(pair => `${pair.left} ${pair.right}`).join(" ")
+    : q.type === "boolean"
+      ? "BENAR SALAH"
+      : q.options.join(" ");
+  const totalChars = `${q.stimulus} ${q.prompt} ${optionText}`.length;
+  if (totalChars > 650) return "tight";
+  if (totalChars > 470) return "compact";
+  return "normal";
+}
+
 function renderPlayerQuestion(id: PlayerId): void {
   if (chapterDone[id]) return renderWaiting(id);
   avoidCurrentCollision(id);
@@ -428,6 +440,9 @@ function renderPlayerQuestion(id: PlayerId): void {
   resetPlayerForQuestion(id);
 
   const total = sequences[id][currentChapter - 1]!.length;
+  const density = estimateDensity(q);
+  const panel = must<HTMLElement>(`.player-panel[data-player="${id}"]`);
+  panel.dataset.density = density;
   must(`#playerQuestionCounter${id}`).textContent = `${questionIndex[id] + 1}/${total}`;
   must(`#sideChapter${id}`).textContent = `BABAK ${currentChapter}`;
   must(`#sideTitle${id}`).textContent = `SOAL ${questionIndex[id] + 1}`;

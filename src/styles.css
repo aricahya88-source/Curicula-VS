@@ -268,33 +268,77 @@ button { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 560px) { .timer-pill { min-width: 60px; padding-inline: 7px; font-size: .76rem; } }
 
 /* Curicula-VS — no-scroll gameplay + review panel */
+/* Curicula-VS — no-scroll gameplay + review panel */
 html, body, #app, .game-shell, .stage { height: 100%; }
 .stage { height: 100dvh; min-height: 100dvh; }
-.player-area { height: calc(100dvh - 158px); align-items: stretch; overflow: hidden; }
-.player-panel { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+
+/* Dynamic readability: default is larger, then compact/tight scale down per question length. */
+.player-panel {
+  --question-font: clamp(.84rem, .95vw, 1rem);
+  --option-font: clamp(.9rem, .92vw, 1rem);
+  --option-letter: 38px;
+  --option-min-h: 68px;
+  --match-font: clamp(.82rem, .84vw, .94rem);
+  --match-target-font: clamp(.78rem, .82vw, .9rem);
+  --multi-font: clamp(.84rem, .86vw, .96rem);
+  --multi-min-h: 56px;
+  --submit-h: 42px;
+}
+.player-panel[data-density="compact"] {
+  --question-font: clamp(.78rem, .88vw, .94rem);
+  --option-font: clamp(.84rem, .84vw, .94rem);
+  --option-letter: 36px;
+  --option-min-h: 60px;
+  --match-font: clamp(.76rem, .78vw, .88rem);
+  --match-target-font: clamp(.72rem, .76vw, .84rem);
+  --multi-font: clamp(.78rem, .8vw, .9rem);
+  --multi-min-h: 50px;
+  --submit-h: 40px;
+}
+.player-panel[data-density="tight"] {
+  --question-font: clamp(.72rem, .8vw, .88rem);
+  --option-font: clamp(.76rem, .78vw, .88rem);
+  --option-letter: 34px;
+  --option-min-h: 52px;
+  --match-font: clamp(.7rem, .72vw, .82rem);
+  --match-target-font: clamp(.67rem, .69vw, .79rem);
+  --multi-font: clamp(.72rem, .74vw, .84rem);
+  --multi-min-h: 46px;
+  --submit-h: 38px;
+}
+
+.topbar { padding: 10px 18px; }
+.brand-icon { width: 40px; height: 40px; }
+.brand-block small { margin-top: 1px; font-size: .72rem; }
+.score-row { padding-top: 8px; }
+.score-card { padding: 8px 12px; }
+.score-value strong { font-size: 1.35rem; }
+.player-area { height: calc(100dvh - 148px); align-items: stretch; overflow: hidden; }
+.player-panel { display: flex; flex-direction: column; min-height: 0; overflow: hidden; padding-top: 8px; padding-bottom: 12px; }
 .side-question-card { flex: 0 0 auto; }
-.side-stimulus { margin-bottom: 0; font-size: clamp(.68rem, .86vw, .84rem); line-height: 1.38; }
+.side-stimulus { margin-bottom: 0; font-size: var(--question-font); line-height: 1.45; }
 .side-prompt { display: none; }
-.answer-mount { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: flex-start; }
+.answer-mount { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: flex-start; margin-top: 6px; }
 .choice-grid, .boolean-grid, .matching-layout, .multi-list { flex: 1 1 auto; min-height: 0; }
-.choice-option { min-height: 54px; padding: 8px; }
-.choice-option b { width: 34px; height: 34px; }
-.choice-option span { font-size: clamp(.68rem, .76vw, .79rem); }
-.boolean-grid { padding-top: 7px; }
-.boolean-option { min-height: 92px; }
-.boolean-option b { display: flex; align-items: center; gap: 8px; font-size: 2.25rem; }
-.boolean-option b i { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; font-size: .85rem; font-style: normal; color: #07111f; background: #f8fafc; }
+.choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.choice-option { min-height: var(--option-min-h); height: 100%; padding: 10px; }
+.choice-option b { width: var(--option-letter); height: var(--option-letter); font-size: 1rem; }
+.choice-option span { font-size: var(--option-font); line-height: 1.33; }
+.boolean-grid { padding-top: 8px; }
+.boolean-option { min-height: 110px; }
+.boolean-option b { display: flex; align-items: center; gap: 8px; font-size: 2.4rem; }
+.boolean-option b i { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; font-size: .9rem; font-style: normal; color: #07111f; background: #f8fafc; }
 .matching-layout { grid-template-columns: minmax(0,.82fr) minmax(0,1.18fr); }
-.match-left, .match-right { grid-template-rows: repeat(4, minmax(42px, 1fr)); }
-.match-card, .match-target { min-height: 42px; padding: 6px 8px; }
-.match-target .target-text { font-size: clamp(.62rem, .7vw, .75rem); }
-.match-card { font-size: clamp(.63rem, .72vw, .76rem); }
-.multi-list { grid-template-rows: repeat(4, minmax(42px, 1fr)); }
-.multi-option { min-height: 42px; grid-template-columns: 30px 25px 1fr; font-size: clamp(.65rem, .73vw, .78rem); }
+.match-left, .match-right { grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.match-card, .match-target { min-height: 46px; height: 100%; padding: 8px 10px; }
+.match-target .target-text { font-size: var(--match-target-font); line-height: 1.28; }
+.match-card { font-size: var(--match-font); }
+.multi-list { grid-template-rows: repeat(4, minmax(0, 1fr)); }
+.multi-option { min-height: var(--multi-min-h); height: 100%; grid-template-columns: 31px 25px 1fr; font-size: var(--multi-font); line-height: 1.3; }
 .multi-letter { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 9px; color: #a5f3fc; background: rgba(8,145,178,.22); border: 1px solid rgba(103,232,249,.24); }
 .player-2 .multi-letter { color: #fbcfe8; background: rgba(190,24,93,.20); border-color: rgba(244,114,182,.25); }
 .multi-option.selected .multi-letter { color: #052e16; background: #86efac; border-color: #86efac; }
-.submit-answer { flex: 0 0 auto; min-height: 38px; margin-top: 6px; }
+.submit-answer { flex: 0 0 auto; min-height: var(--submit-h); margin-top: 6px; }
 .gesture-progress { flex: 0 0 auto; margin-top: 5px; }
 
 /* Review: scroll is intentionally allowed only after the game is finished. */
@@ -328,23 +372,20 @@ html, body, #app, .game-shell, .stage { height: 100%; }
 
 @media (max-height: 760px) {
   .topbar { padding-top: 8px; padding-bottom: 8px; }
-  .brand-icon { width: 38px; height: 38px; }
+  .brand-icon { width: 36px; height: 36px; }
   .score-row { padding-top: 6px; }
   .score-card { padding-top: 7px; padding-bottom: 7px; }
   .subteam-mini { padding-top: 4px; }
-  .player-area { height: calc(100dvh - 138px); padding-top: 6px; padding-bottom: 8px; }
-  .player-panel { padding-top: 5px; padding-bottom: 7px; }
-  .side-question-card { margin-top: 5px; padding: 8px 9px; }
-  .side-stimulus { margin-top: 5px; font-size: clamp(.61rem, .76vw, .73rem); line-height: 1.3; }
+  .player-area { height: calc(100dvh - 136px); padding-top: 4px; padding-bottom: 6px; }
+  .player-panel { padding-top: 4px; padding-bottom: 6px; }
+  .side-question-card { margin-top: 4px; padding: 8px 9px; }
+  .player-panel { --question-font: clamp(.72rem, .8vw, .86rem); --option-font: clamp(.76rem, .76vw, .88rem); --match-font: clamp(.68rem, .68vw, .8rem); --match-target-font: clamp(.65rem, .66vw, .76rem); --multi-font: clamp(.72rem, .72vw, .84rem); --option-min-h: 48px; --multi-min-h: 40px; }
   .side-question-card .gesture-hint { margin-top: 4px; font-size: .61rem; }
-  .answer-mount { margin-top: 5px; }
   .choice-grid { gap: 6px; }
-  .choice-option { min-height: 46px; }
-  .boolean-option { min-height: 76px; }
+  .boolean-option { min-height: 82px; }
   .match-left, .match-right { gap: 5px; }
-  .match-card, .match-target { min-height: 36px; }
+  .match-card, .match-target { min-height: 38px; }
   .multi-list { gap: 5px; }
-  .multi-option { min-height: 36px; }
   .submit-answer { min-height: 34px; }
 }
 
@@ -352,7 +393,7 @@ html, body, #app, .game-shell, .stage { height: 100%; }
   .matching-layout { grid-template-columns: minmax(0,.82fr) minmax(0,1.18fr); }
   .choice-grid { grid-template-columns: 1fr 1fr; }
   .boolean-grid { grid-template-columns: 1fr 1fr; }
-  .side-stimulus { font-size: clamp(.6rem, 1.25vw, .72rem); }
+  .player-panel { --question-font: clamp(.68rem, 1.1vw, .82rem); --option-font: clamp(.72rem, 1.05vw, .86rem); --match-font: clamp(.66rem, 1vw, .8rem); --match-target-font: clamp(.63rem, .98vw, .76rem); --multi-font: clamp(.68rem, 1vw, .82rem); }
 }
 
 @media (max-width: 620px) {
@@ -364,11 +405,11 @@ html, body, #app, .game-shell, .stage { height: 100%; }
   .score-card { padding: 5px; }
   .subteam-mini, .team-score-main small { display: none; }
   .side-question-head strong { font-size: .62rem; }
-  .side-stimulus { text-align: left; font-size: .55rem; line-height: 1.24; }
+  .player-panel { --question-font: .58rem; --option-font: .58rem; --match-font: .54rem; --match-target-font: .53rem; --multi-font: .56rem; --option-letter: 25px; --option-min-h: 38px; --multi-min-h: 36px; }
+  .side-stimulus { text-align: left; line-height: 1.24; }
   .side-question-card .gesture-hint { font-size: .5rem; }
-  .choice-option { grid-template-columns: 27px 1fr; min-height: 38px; padding: 5px; gap: 5px; }
+  .choice-option { grid-template-columns: 27px 1fr; padding: 5px; gap: 5px; }
   .choice-option b { width: 25px; height: 25px; font-size: .72rem; }
-  .choice-option span { font-size: .55rem; }
   .match-card, .match-target, .multi-option { font-size: .52rem; }
   .review-answer-grid { grid-template-columns: 1fr; }
 }
